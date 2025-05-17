@@ -26,7 +26,7 @@ export default function ForgetPass() {
                 <form>
                   <div class="input-group mb-3">
                       <span class="input-group-text" id="basic-addon1">
-                        <i class="fa fa-mobile"></i>
+                        <i class="fa fa-envelope"></i>
                       </span>
                       <input type="text" class="form-control" placeholder="Enter your email" aria-label="Username" aria-describedby="basic-addon1"/>
                   </div>

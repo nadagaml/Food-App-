@@ -18,6 +18,8 @@ import CategoriesList from './modules/Categories/components/CategoriesList/Categ
 import CategoriesData from './modules/Categories/components/CategoriesData/CategoriesData';
 import UserList from './modules/User/components/UserList/UserList';
 import FavList from './modules/Favourites/components/FavList/FavList';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -81,6 +83,7 @@ const routes = createBrowserRouter([
     <>
       
       <RouterProvider router={routes}></RouterProvider>
+      <ToastContainer position="top-right" autoClose={3000} />
      
     </>
   )
