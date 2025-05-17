@@ -61,9 +61,9 @@ export default function ResetPass() {
                   <span className="input-group-text">
                     <i className="fa fa-envelope"></i>
                   </span>
-                  <input
+                  <input 
                     type="email"
-                    className="form-control"
+                    className="form-control "
                     placeholder="Email"
                     {...register('email', {
                       required: 'Email is required',

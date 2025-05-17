@@ -33,21 +33,21 @@ export default function Register() {
                       <span class="input-group-text" id="basic-addon1">
                         <i class="fa fa-mobile"></i>
                       </span>
-                      <input type="text" class="form-control" placeholder="Enter your email" aria-label="Username" aria-describedby="basic-addon1"/>
+                      <input type="text" class="form-control" placeholder="UserName" aria-label="Username" aria-describedby="basic-addon1"/>
                       </div>
 
                        <div class="input-group mb-3">
                       <span class="input-group-text" id="basic-addon1">
-                        <i class="fa fa-mobile"></i>
+                        <i class="fa fa-flag"></i>
                       </span>
-                      <input type="text" class="form-control" placeholder="Enter your email" aria-label="Username" aria-describedby="basic-addon1"/>
+                      <input type="text" class="form-control" placeholder="Country" aria-label="Username" aria-describedby="basic-addon1"/>
                       </div>
 
                        <div class="input-group mb-3">
                       <span class="input-group-text" id="basic-addon1">
-                        <i class="fa fa-mobile"></i>
+                        <i class="fa fa-lock"></i>
                       </span>
-                      <input type="text" class="form-control" placeholder="Enter your email" aria-label="Username" aria-describedby="basic-addon1"/>
+                      <input type="password" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1"/>
                       </div>
                       
                   </div>
@@ -57,7 +57,7 @@ export default function Register() {
                   <div className="col-md-6">
                       <div class="input-group mb-3">
                       <span class="input-group-text" id="basic-addon1">
-                        <i class="fa fa-mobile"></i>
+                        <i class="fa fa-envelope"></i>
                       </span>
                       <input type="text" class="form-control" placeholder="Enter your email" aria-label="Username" aria-describedby="basic-addon1"/>
                       </div>
@@ -66,14 +66,14 @@ export default function Register() {
                       <span class="input-group-text" id="basic-addon1">
                         <i class="fa fa-mobile"></i>
                       </span>
-                      <input type="text" class="form-control" placeholder="Enter your email" aria-label="Username" aria-describedby="basic-addon1"/>
+                      <input type="tel" class="form-control" placeholder="PhoneNumber" aria-label="Username" aria-describedby="basic-addon1"/>
                       </div>
 
                       <div class="input-group mb-3">
                       <span class="input-group-text" id="basic-addon1">
-                        <i class="fa fa-mobile"></i>
+                        <i class="fa fa-lock"></i>
                       </span>
-                      <input type="text" class="form-control" placeholder="Enter your email" aria-label="Username" aria-describedby="basic-addon1"/>
+                      <input type="password" class="form-control" placeholder="confirm-password" aria-label="Username" aria-describedby="basic-addon1"/>
                       </div>
 
                   </div>
@@ -81,7 +81,7 @@ export default function Register() {
 
 
               <div className="links mb-3 d-flex justify-content-end ">
-                <Link to='/forget-pass' className='text-success text-decoration-none'>Login Now?</Link>
+                <Link to='/login' className='text-success text-decoration-none'>Login Now?</Link>
               </div>
 
                   <button className="btn btn-custom-green w-100 my-5">

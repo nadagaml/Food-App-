@@ -18,3 +18,10 @@
   background-color: #3c8c4c !important;
   border-color: #3c8c4c !important;
 }
+.form-control {
+  background-color: #F7F7F7 !important;
+}
+.input-group-text {
+  color: rgba(0, 0, 0, 0.5) !important;       /* لون رمادي فاتح */
+  font-weight: 300 !important;  /* وزن خفيف */
+}
