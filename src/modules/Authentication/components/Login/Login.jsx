@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 export default function Login() {
   const navigate = useNavigate();
-  const {
+  let {
     register,
     formState: { errors },
     handleSubmit,
