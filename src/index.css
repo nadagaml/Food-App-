@@ -1,0 +1,20 @@
+.auth-container{
+    background-image: url('../src/assets/images/foodBg.png');
+    background-size: cover;
+    background-position: center center;
+}
+
+.bg-overlay {
+    background: linear-gradient(45deg, rgba(55,140,47,0.6) , rgba(0,0,0,0.6));
+}
+
+.btn-custom-green {
+  background-color: #4AA35A !important;
+  border-color: #4AA35A !important;
+  color: #fff !important;
+}
+
+.btn-custom-green:hover {
+  background-color: #3c8c4c !important;
+  border-color: #3c8c4c !important;
+}

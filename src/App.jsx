@@ -59,17 +59,17 @@ const routes = createBrowserRouter([
   },
 
 
-  { path : '/dashboard',
-    element:<MasterLayout/>,
-    errorElement:<NotFound/>,
+  {path: '/dashboard',
+    element: <MasterLayout />,
+    errorElement: <NotFound />,
     children: [
-      {path :true , element:<Dashboard/>},
-      {path :"recipe" , element:<RecipesList/>},
-      {path :"recipe-data" , element:<RecipesData/>},
-      {path :"categry" , element:<CategoriesList/>},
-      {path :"categry-data" , element:<CategoriesData/>},
-      {path :"users" , element:<UserList/>},
-      {path :"favs" , element:<FavList/>},
+      { index: true, element: <Dashboard /> },
+      { path: 'recipe', element: <RecipesList /> },
+      { path: 'recipe-data', element: <RecipesData /> },
+      { path: 'category', element: <CategoriesList /> },
+      { path: 'category-data', element: <CategoriesData /> },
+      { path: 'users', element: <UserList /> },
+      { path: 'favs', element: <FavList /> },
 
     ]
   }
