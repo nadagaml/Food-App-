@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-export default function Login() {
+export default function Login({saveLoginData}) {
   const navigate = useNavigate();
   let {
     register,
@@ -20,9 +20,11 @@ export default function Login() {
         data
       );
       console.log(response);
-
+      localStorage.setItem('token', response.data.token);
+        saveLoginData();
       toast.success('Login successful!');
       navigate('/dashboard');
+
     } catch (error) {
       console.log(error);
       toast.error(

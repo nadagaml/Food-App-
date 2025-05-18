@@ -20,9 +20,24 @@ import UserList from './modules/User/components/UserList/UserList';
 import FavList from './modules/Favourites/components/FavList/FavList';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
+import ProtectedRoute from './modules/Shared/components/ProtectedRoute/ProtectedRoute';
 
 
 function App() {
+
+
+
+  const [loginData, setLoginData] = useState('');
+
+  let saveLoginData = ()=>{
+    let encodedToken = localStorage.getItem('token');
+    let decodedToken = jwtDecode(encodedToken);
+    setLoginData(decodedToken)
+  }
+
+  // logout function 
  
 const routes = createBrowserRouter([
 
@@ -32,11 +47,11 @@ const routes = createBrowserRouter([
     children :[
 
       {index:true, 
-        element:<Login/> 
+        element:<Login saveLoginData={saveLoginData}/> 
       },
 
        {path :'login' , 
-        element:<Login/> 
+        element:<Login saveLoginData={saveLoginData}/> 
       },
 
        {path :'register' , 
@@ -62,7 +77,7 @@ const routes = createBrowserRouter([
 
 
   {path: '/dashboard',
-    element: <MasterLayout />,
+    element: <ProtectedRoute loginData={loginData}> <MasterLayout /> </ProtectedRoute>,
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Dashboard /> },
