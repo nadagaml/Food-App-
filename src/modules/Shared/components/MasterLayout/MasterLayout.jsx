@@ -4,7 +4,7 @@ import Navbar from '../Navbar/Navbar'
 import { Outlet } from 'react-router-dom'
 import Header from '../Header/Header'
 
-export default function MasterLayout() {
+export default function MasterLayout({ setLoginData }) {
   return (
     <>
 
@@ -14,7 +14,7 @@ export default function MasterLayout() {
       </div>
 
       <div className="w-75 bg-warning">
-        <Navbar/>
+        <Navbar  setLoginData={setLoginData}/>
         <Header/>
         <Outlet/>
       </div>

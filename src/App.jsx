@@ -2,7 +2,7 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, useNavigate } from 'react-router-dom';
 import AuthLayout from './modules/Shared/components/AuthLayout/AuthLayout';
 import Login from './modules/Authentication/components/Login/Login';
 import Register from './modules/Authentication/components/Register/Register';
@@ -37,7 +37,23 @@ function App() {
     setLoginData(decodedToken)
   }
 
-  // logout function 
+  // // logout function 
+  // function LogoutButton({setLoginData})
+  // {
+  //   let navigate = useNavigate();
+  
+  //   const handleLogout =()=>{
+  //       localStorage.removeItem('token');
+  //       setLoginData('');
+  //       navigate('/login');
+  //   }
+
+  //   return (
+  //   <button className="btn btn-danger" onClick={handleLogout}>
+  //     Logout
+  //   </button> 
+  //   );
+  // }
  
 const routes = createBrowserRouter([
 
@@ -77,7 +93,7 @@ const routes = createBrowserRouter([
 
 
   {path: '/dashboard',
-    element: <ProtectedRoute loginData={loginData}> <MasterLayout /> </ProtectedRoute>,
+    element: <ProtectedRoute loginData={loginData}> <MasterLayout  setLoginData={setLoginData}/> </ProtectedRoute>,
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Dashboard /> },
