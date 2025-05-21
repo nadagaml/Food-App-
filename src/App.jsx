@@ -2,7 +2,7 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import { createBrowserRouter, RouterProvider, useNavigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import AuthLayout from './modules/Shared/components/AuthLayout/AuthLayout';
 import Login from './modules/Authentication/components/Login/Login';
 import Register from './modules/Authentication/components/Register/Register';
@@ -20,7 +20,7 @@ import UserList from './modules/User/components/UserList/UserList';
 import FavList from './modules/Favourites/components/FavList/FavList';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { jwtDecode } from 'jwt-decode';
 import ProtectedRoute from './modules/Shared/components/ProtectedRoute/ProtectedRoute';
 
@@ -36,6 +36,13 @@ function App() {
     let decodedToken = jwtDecode(encodedToken);
     setLoginData(decodedToken)
   }
+
+  useEffect(() => {
+    if(localStorage.getItem('token'))
+      saveLoginData();
+  
+  }, [])
+  
 
   // // logout function 
   // function LogoutButton({setLoginData})
@@ -93,7 +100,7 @@ const routes = createBrowserRouter([
 
 
   {path: '/dashboard',
-    element: <ProtectedRoute loginData={loginData}> <MasterLayout  setLoginData={setLoginData}/> </ProtectedRoute>,
+    element: <ProtectedRoute loginData={loginData}> <MasterLayout  loginData={loginData}/> </ProtectedRoute>,
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Dashboard /> },

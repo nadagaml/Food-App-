@@ -4,17 +4,20 @@ import Navbar from '../Navbar/Navbar'
 import { Outlet } from 'react-router-dom'
 import Header from '../Header/Header'
 
-export default function MasterLayout({ setLoginData }) {
+export default function MasterLayout({ loginData }) {
+
+    console.log(loginData)
+
   return (
     <>
 
     <div className='d-flex'>
-      <div className="w-25 bg-info">
+      <div className="">
             <Sidebar/>
       </div>
 
-      <div className="w-75 bg-warning">
-        <Navbar  setLoginData={setLoginData}/>
+      <div className="w-100">
+        <Navbar  loginData={loginData}/>
         <Header/>
         <Outlet/>
       </div>
