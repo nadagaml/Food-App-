@@ -26,6 +26,8 @@
   font-weight: 300 !important;  /* وزن خفيف */
 }
 
+/* ******** Header ************ */
+
 .custom-bg
 {
   background-image: url('/src/assets/images/Rectangle.png');
@@ -33,6 +35,13 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
+
+.header-title {
+  color: #fff;
+}
+
+
+/* ************** SideBar ************** */
 
 .sideBar-cont .ps-sidebar-container {
   background-color: #1F263E;

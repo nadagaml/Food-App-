@@ -7,7 +7,7 @@ export default function Header({title , description ,imgPath}) {
     <div className="container-fluid custom-bg">
       <div className="row">
         <div className="col-md-8  d-flex align-items-center">
-          <div>
+          <div className='header-title'>
             <h3>{title}</h3>
           <p>{description}</p>
           </div>
@@ -15,7 +15,7 @@ export default function Header({title , description ,imgPath}) {
 
         <div className="col-md-4  d-flex justify-content-end">
           <img src={imgPath} alt="" className='w-50' />
-        </div>
+        </div> 
 
       </div>
     </div>
