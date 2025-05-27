@@ -8,6 +8,7 @@ import NoData from '../../../Shared/components/NoData/NoData'
 import DeleteConfirmation from '../../../Shared/components/DeleteConfirmation/DeleteConfirmation';
 import { useForm } from 'react-hook-form';
 import {axiosInstance, CATEGORIES_URLS} from '../../../Services/urls'
+import { toast } from 'react-toastify';
 
  
 export default function CategoriesList() {
@@ -31,7 +32,7 @@ let {register , formState:{errors} , handleSubmit } = useForm()
   const handleShow = (id) =>
     {
 
-      setCatId(id);;
+      setCatId(id);
       setShow(true)
   };
 
@@ -67,14 +68,13 @@ const getAllCategories = async(pageSize , pageNumber)=>{
 const deleteCategory = async ()=>{
  
   try{
-      let resposne = await axios.delete (`https://upskilling-egypt.com:3006/api/v1/Category/${catId}` , 
-        { headers :{
-          Authorization : localStorage.getItem('token')
-        }}
+      let resposne = await axiosInstance.delete (
+        CATEGORIES_URLS.DELETE_CATEGORY(catId)
       )
 
       getAllCategories();
       handleClose()
+      toast.success("category Deleted");
   }
 
   catch (error)

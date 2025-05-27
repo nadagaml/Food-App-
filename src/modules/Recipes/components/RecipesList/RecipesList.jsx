@@ -4,8 +4,10 @@ import RecipesImg from '../../../../assets/images/header.svg'
 import {axiosInstance, baseImage, RECIPES_URLS} from '../../../Services/urls'
 import NoData from '../../../Shared/components/NoData/NoData'
 import { useNavigate } from 'react-router-dom'
-
-
+import { toast } from 'react-toastify';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import DeleteConfirmation from '../../../Shared/components/DeleteConfirmation/DeleteConfirmation';
 export default function RecipesList() {
 
   let navigate = useNavigate()
@@ -13,6 +15,18 @@ export default function RecipesList() {
 // ********* USE State ******************
 
 const [RecipesList , setRecipesList] =useState([])
+const [recipeId , setrecipeId] = useState(0) 
+
+// show and hide the model in delete
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (id) =>
+    {
+
+      setrecipeId(id);
+      setShow(true)
+  };
 
 // *********** URLS APIS ***************
 
@@ -36,17 +50,30 @@ const getAllRecipes = async (pageSize , pageNumber) =>
 }
 
 
+// Delete Categories by ID
+const deleteRecipe = async ()=>{
+ 
+  try{
+      let resposne = await axiosInstance.delete(
+        RECIPES_URLS.DELETE_RECIPY(recipeId)
+      )
 
+      getAllRecipes();
+      handleClose()
+      toast.success("category Deleted");
+  }
 
+  catch (error)
+  {
+    console.log(error)
+  }
 
-
-
-
+}
 
 // Use Effect 
 
 useEffect ( ()=>{
-  getAllRecipes(2,1)
+  getAllRecipes(10,1)
 }, [] )
 
 
@@ -56,6 +83,28 @@ useEffect ( ()=>{
     <>
     <Header imgPath={RecipesImg} title={'Recipes Items'} description={'You can now add your items that any user can order it from the Application and you can edit'}/>
     
+
+    {/* Delete Model */}
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+         
+        </Modal.Header>
+        <Modal.Body>
+          <DeleteConfirmation  deleteItem={'Recipe'}/>
+        </Modal.Body>
+        <Modal.Footer>
+         
+          <Button variant="danger" onClick={deleteRecipe}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+    {/* End Of Delete Model  */}
+
+
+
     {/* title */}
         <div className='title d-flex justify-content-between p-4 align-items-center'>
       <div className="titleCat">
@@ -79,6 +128,7 @@ useEffect ( ()=>{
             <th>Description</th>
             <th>tag</th>
             <th>Category</th>
+            <th>Action</th>
           </thead>
 
           <tbody>
@@ -90,6 +140,11 @@ useEffect ( ()=>{
               <td>{item.description}</td>
               <td>{item.tag.name}</td>
               <td>{item.category[0].name}</td>
+              <td> 
+        <i class="fa fa-eye" aria-hidden="true"></i>
+         <i  class="fas fa-edit mx-2 text-warning" aria-hidden="true"></i>
+         <i  onClick={()=> handleShow(item.id)} class="fa fa-trash text-danger" aria-hidden="true"></i>
+        </td> 
             </tr>
 
             ) : <NoData/> }

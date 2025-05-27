@@ -198,7 +198,7 @@ const getAllCategories = async(pageSize , pageNumber)=>{
     <button type="submit" className='btn btn-custom-green'>Save</button>
   </div>
 
-</form>
+</form> 
 
 </div>
 
