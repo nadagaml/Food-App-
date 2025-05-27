@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import NoData from '../../../Shared/components/NoData/NoData'
 import DeleteConfirmation from '../../../Shared/components/DeleteConfirmation/DeleteConfirmation';
 import { useForm } from 'react-hook-form';
+import {axiosInstance, CATEGORIES_URLS} from '../../../Services/urls'
 
  
 export default function CategoriesList() {
@@ -16,6 +17,8 @@ const [catId , setCatId] = useState(0)
 // const [isEditMode, setIsEditMode] = useState(false);
 
 
+
+// ************ Models *****************
 
 // Add
 let {register , formState:{errors} , handleSubmit } = useForm()
@@ -41,19 +44,19 @@ let {register , formState:{errors} , handleSubmit } = useForm()
 
 
 
-
+// ***************** APIS Links *************************
 
 
 // Show All Categories
-const getAllCategories = async()=>{
+const getAllCategories = async(pageSize , pageNumber)=>{
   try {
-      let respons = await axios.get('https://upskilling-egypt.com:3006/api/v1/Category/?pageSize=5&pageNumber=1' ,{
-        headers:{
-          Authorization : localStorage.getItem('token')
-        }
-      })
+      let response = await axiosInstance.get (
+        `${CATEGORIES_URLS.GET_CATEGORIES}`,
+        {params : {pageSize , pageNumber}}
+      );
+
       // console.log(respons.data.data);
-      setCategoriesList(respons.data.data)
+      setCategoriesList(response.data.data)
   }
   catch (error) {
       console.log(error);
@@ -118,7 +121,7 @@ const addCategories  = async (data)=>
 
 // Function to make event in html pages للتحديث المستمر و عرضه
 useEffect ( ()=>{
-  getAllCategories()
+  getAllCategories(3,1)
 }  , [])
 
   return (
@@ -199,13 +202,13 @@ useEffect ( ()=>{
 
       <div className="p-5">
         <table class="table table-striped ">
-      <thead className=''>
-        <th>Name</th>
-        <th>Creation date</th>
-        <th>Actions</th>
-      </thead>
+          <thead className=''>
+            <th>Name</th>
+            <th>Creation date</th>
+            <th>Actions</th>
+          </thead>
 
-    <tbody>
+         <tbody>
 
     { CategoriesList.length>0 ? CategoriesList.map((item)=>
       <tr> 
@@ -213,21 +216,16 @@ useEffect ( ()=>{
         <td> {item.creationDate} </td> 
 
         <td> 
-
-        
-
-           <i class="fa fa-eye" aria-hidden="true"></i>
-         <i onClick={()=>updateCategories(item.id)} class="fas fa-edit mx-2 text-warning" aria-hidden="true"></i>
+        <i class="fa fa-eye" aria-hidden="true"></i>
+         <i  class="fas fa-edit mx-2 text-warning" aria-hidden="true"></i>
          <i  onClick={()=> handleShow(item.id)} class="fa fa-trash text-danger" aria-hidden="true"></i>
-
-        
         </td> 
 
       </tr>
     ) : <NoData/> } 
     </tbody>
 </table>
-</div>
+      </div>
 
 
 

@@ -70,3 +70,9 @@
   background-color: transparent !important;
   border: none;
 }
+
+/* images */
+.item-img {
+width: 50px;
+border-radius: 50%;
+}
