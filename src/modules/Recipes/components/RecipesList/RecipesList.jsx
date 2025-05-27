@@ -3,10 +3,12 @@ import Header from '../../../Shared/components/Header/Header'
 import RecipesImg from '../../../../assets/images/header.svg'
 import {axiosInstance, baseImage, RECIPES_URLS} from '../../../Services/urls'
 import NoData from '../../../Shared/components/NoData/NoData'
+import { useNavigate } from 'react-router-dom'
 
 
 export default function RecipesList() {
 
+  let navigate = useNavigate()
 
 // ********* USE State ******************
 
@@ -60,7 +62,9 @@ useEffect ( ()=>{
         <h5>Recipe Table Details</h5>
       <p>You can check all details</p>
       </div>
-        <button className='btn btn-custom-green'>Add New Item</button>
+        <button className='btn btn-custom-green' onClick={()=> navigate('/dashboard/recipe-data')}>
+          Add New Item
+        </button>
         </div>
 
 

@@ -27,4 +27,14 @@ export const CATEGORIES_URLS = {
 
 export const RECIPES_URLS = {
     GET_RECIPES : `/Recipe/` ,
+    CREATE_RECIPY :`/Recipe/` , 
+    DELETE_RECIPY : (id)=>`/Recipe/${id}`
 }
+
+
+// ************** TAGS URLS *************
+
+export const TAGS_URLS = {
+    GET_TAGS : `/tag/` ,
+}
+
