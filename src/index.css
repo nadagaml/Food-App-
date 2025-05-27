@@ -30,7 +30,7 @@
 
 .custom-bg
 {
-  background-image: url('/src/assets/images/Rectangle.png');
+  background-image: url('/src/assets/images/headerBg.svg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

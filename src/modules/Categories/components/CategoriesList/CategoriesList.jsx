@@ -8,11 +8,14 @@ import NoData from '../../../Shared/components/NoData/NoData'
 import DeleteConfirmation from '../../../Shared/components/DeleteConfirmation/DeleteConfirmation';
 import { useForm } from 'react-hook-form';
 
-
+ 
 export default function CategoriesList() {
 
 const [CategoriesList , setCategoriesList] =useState ([])
 const [catId , setCatId] = useState(0) 
+// const [isEditMode, setIsEditMode] = useState(false);
+
+
 
 // Add
 let {register , formState:{errors} , handleSubmit } = useForm()
@@ -35,6 +38,9 @@ let {register , formState:{errors} , handleSubmit } = useForm()
 
   const handleCloseAdd = () => setShowAdd(false);
   const handleShowAdd = () =>  setShowAdd(true)
+
+
+
 
 
 
@@ -94,7 +100,23 @@ const addCategories  = async (data)=>
 
 }
 
-// Function to make event in html pages
+// Update Categories
+// const updateCategories = async ()=>
+// {
+
+//   alert(catId)
+//   // try
+//   // {
+//   //   let response = await axios.put(`https://upskilling-egypt.com:3006/api/v1/Category/${catId}`)
+//   // }
+
+//   // catch(error)
+//   // {
+//   //   console.log(error)
+//   // }
+// }
+
+// Function to make event in html pages للتحديث المستمر و عرضه
 useEffect ( ()=>{
   getAllCategories()
 }  , [])
@@ -192,21 +214,10 @@ useEffect ( ()=>{
 
         <td> 
 
-          {/* button toggle */}
-
-          {/* <div class="btn-group dropstart">
-            <button type="button" class="btn btn-secondary " data-bs-toggle="dropdown" aria-expanded="false">
-              :
-            </button>
-            <ul class="dropdown-menu">
-             <i class="fa fa-eye" aria-hidden="true"></i>
-         <i class="fas fa-edit" aria-hidden="true"></i>
-         <i class="fa fa-trash" aria-hidden="true"></i>
-            </ul>
-          </div> */}
+        
 
            <i class="fa fa-eye" aria-hidden="true"></i>
-         <i class="fas fa-edit mx-2 text-warning" aria-hidden="true"></i>
+         <i onClick={()=>updateCategories(item.id)} class="fas fa-edit mx-2 text-warning" aria-hidden="true"></i>
          <i  onClick={()=> handleShow(item.id)} class="fa fa-trash text-danger" aria-hidden="true"></i>
 
         
