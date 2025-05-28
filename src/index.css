@@ -46,7 +46,7 @@
 .sideBar-cont .ps-sidebar-container {
   background-color: #1F263E;
   height: 100vh;
-  border-top-right-radius: 20%;
+  border-top-right-radius:15%;
 }
 
 .sideBar-cont .ps-menu-button 
@@ -80,3 +80,30 @@ border-radius: 50%;
 .recipe-header{
   background-color: #F0FFEF;
 }
+
+/* drop down  */
+
+.custom-dropdown-menu {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  min-width: 120px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.custom-dropdown-item {
+  color: #28a745; /* Green color */
+  font-weight: 500;
+  padding: 8px 12px;
+}
+
+.custom-dropdown-item:hover {
+  background-color: #e6f7e6;
+  color: #218838; /* Darker green on hover */
+}
+.action-dropdown .dropdown-toggle::after {
+  display: none !important;
+}
+.custom-dropdown-item i {
+  color: #009247;
+}
+

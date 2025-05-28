@@ -9,6 +9,9 @@ import DeleteConfirmation from '../../../Shared/components/DeleteConfirmation/De
 import { useForm } from 'react-hook-form';
 import { axiosInstance, CATEGORIES_URLS } from '../../../Services/urls';
 import { toast } from 'react-toastify';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+
 
 export default function CategoriesList() {
   const [CategoriesList, setCategoriesList] = useState([]);
@@ -232,23 +235,34 @@ export default function CategoriesList() {
                   <td>{item.name}</td>
                   <td>{item.creationDate}</td>
                   <td>
-                   <i
-  className="fa fa-eye text-success"
-  onClick={() => handleShowView(item)}
-  style={{ cursor: 'pointer' }}
-></i>
-                    <i
-                      className="fas fa-edit mx-2 text-warning"
-                      onClick={() => handleShowAdd(item)}
-                      style={{ cursor: 'pointer' }}
-                    ></i>
-                    <i
-                      onClick={() => handleShow(item.id)}
-                      style={{ cursor: 'pointer' }}
-                      className="fa fa-trash text-danger"
-                      aria-hidden="true"
-                    ></i>
+
+                <Dropdown className="action-dropdown" drop="start">
+  <Dropdown.Toggle
+    as="div"
+    variant="link"
+    className="text-green border-0 bg-transparent fs-4"
+    style={{ textDecoration: 'none', fontWeight: 'bold', color: 'green' }}
+  >
+    :
+  </Dropdown.Toggle>
+
+  <Dropdown.Menu className="custom-dropdown-menu">
+    <Dropdown.Item onClick={() => handleShowView(item)} className="custom-dropdown-item">
+      <i className="fa fa-eye me-2"></i> View
+    </Dropdown.Item>
+    <Dropdown.Item onClick={() => handleShowAdd(item)} className="custom-dropdown-item">
+      <i className="fas fa-edit me-2"></i> Edit
+    </Dropdown.Item>
+    <Dropdown.Item onClick={() => handleShow(item.id)} className="custom-dropdown-item">
+      <i className="fa fa-trash me-2"></i> Delete
+    </Dropdown.Item>
+  </Dropdown.Menu>
+</Dropdown>
+
+
+
                   </td>
+
                 </tr>
               ))
             ) : (
