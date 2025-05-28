@@ -28,7 +28,9 @@ export const CATEGORIES_URLS = {
 export const RECIPES_URLS = {
     GET_RECIPES : `/Recipe/` ,
     CREATE_RECIPY :`/Recipe/` , 
-    DELETE_RECIPY : (id)=>`/Recipe/${id}`
+    DELETE_RECIPY : (id)=>`/Recipe/${id}` ,
+    UPDATE_RECIPY : (id)=>`/Recipe/${id}`,
+
 }
 
 

@@ -73,7 +73,7 @@ const deleteRecipe = async ()=>{
 // Use Effect 
 
 useEffect ( ()=>{
-  getAllRecipes(10,1)
+  getAllRecipes(5,1)
 }, [] )
 
 
@@ -142,7 +142,8 @@ useEffect ( ()=>{
               <td>{item.category[0].name}</td>
               <td> 
         <i class="fa fa-eye" aria-hidden="true"></i>
-         <i  class="fas fa-edit mx-2 text-warning" aria-hidden="true"></i>
+         <i className="fas fa-edit mx-2 text-warning"
+   onClick={() => navigate('/dashboard/recipe-data', { state: { recipe: item } })}></i>
          <i  onClick={()=> handleShow(item.id)} class="fa fa-trash text-danger" aria-hidden="true"></i>
         </td> 
             </tr>
