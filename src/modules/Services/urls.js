@@ -20,7 +20,8 @@ export const USERS_URLS = {
 
 export const CATEGORIES_URLS = {
     GET_CATEGORIES : `/Category/`,
-    DELETE_CATEGORY : (id)=> `/Category/${id}`
+    DELETE_CATEGORY : (id)=> `/Category/${id}`,
+    
 };
 
 // ************** RECIPES *************

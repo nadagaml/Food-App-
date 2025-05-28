@@ -14,6 +14,9 @@ export default function CategoriesList() {
   const [CategoriesList, setCategoriesList] = useState([]);
   const [catId, setCatId] = useState(0);
 
+ 
+
+  
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = (id) => {
@@ -23,6 +26,21 @@ export default function CategoriesList() {
 
   const [showAdd, setShowAdd] = useState(false);
   const handleCloseAdd = () => setShowAdd(false);
+
+  // states foe view model
+  const [showView , setshowView] = useState(false);
+  const [viewCategory, setViewCategory] = useState(null);
+
+  const handleCloseView = ()=>{
+    setshowView (false)
+    setViewCategory(null)
+  }
+
+  const handleShowView  = (category) =>
+  {
+    setViewCategory(category);
+      setshowView(true);
+  }
 
   // states for edit mode
   const [isEditMode, setIsEditMode] = useState(false);
@@ -136,6 +154,7 @@ export default function CategoriesList() {
             Delete
           </Button>
         </Modal.Footer>
+      
       </Modal>
 
       {/* Add / Edit Modal */}
@@ -164,6 +183,29 @@ export default function CategoriesList() {
         </Modal.Body>
       </Modal>
 
+
+      {/* View Modal */}
+        <Modal show={showView} onHide={handleCloseView}>
+          <Modal.Header closeButton>
+            <Modal.Title>Category Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {viewCategory && (
+              <div>
+                <p><strong>Name:</strong> {viewCategory.name}</p>
+                <p><strong>Created at:</strong> {viewCategory.creationDate}</p>
+              
+              </div>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseView}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+
       <div className="title d-flex justify-content-between p-4 align-items-center">
         <div className="titleCat">
           <h5>Categories Table Details</h5>
@@ -190,13 +232,19 @@ export default function CategoriesList() {
                   <td>{item.name}</td>
                   <td>{item.creationDate}</td>
                   <td>
-                    <i className="fa fa-eye" aria-hidden="true"></i>
+                   <i
+  className="fa fa-eye text-success"
+  onClick={() => handleShowView(item)}
+  style={{ cursor: 'pointer' }}
+></i>
                     <i
                       className="fas fa-edit mx-2 text-warning"
                       onClick={() => handleShowAdd(item)}
+                      style={{ cursor: 'pointer' }}
                     ></i>
                     <i
                       onClick={() => handleShow(item.id)}
+                      style={{ cursor: 'pointer' }}
                       className="fa fa-trash text-danger"
                       aria-hidden="true"
                     ></i>
