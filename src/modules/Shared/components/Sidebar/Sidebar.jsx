@@ -6,7 +6,7 @@ import SideBarLogo from '../../../../assets/images/SideBarLogo.png'
 export default function SideBar() {
 
   const [iscollapsed , setIscollapsed] = useState(false)
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   let togglecollapse =()=>{
     setIscollapsed(!iscollapsed)
@@ -29,6 +29,7 @@ export default function SideBar() {
     <MenuItem icon= {<i class="fa fa-users" aria-hidden="true"></i>} component={<Link to="/dashboard/users" />}> Users </MenuItem>
     <MenuItem icon= {<i class="fa fa-cutlery" aria-hidden="true"></i>} component={<Link to="/dashboard/recipe" />}> Recipes </MenuItem>
     <MenuItem icon= {<i class="fa fa-list" aria-hidden="true"></i>} component={<Link to="/dashboard/category" />}> Categories </MenuItem>
+    <MenuItem icon= {<i class="fa fa-heart" aria-hidden="true"></i>} component={<Link to="/dashboard/favs" />}> Favourite </MenuItem>
     <MenuItem icon= {<i class="fa fa-key" aria-hidden="true"></i>} component={<Link to="/dashboard/users" />}> Change Password </MenuItem>
     <MenuItem icon= {<i class="fa fa-sign-out" aria-hidden="true"></i>} onClick={handleLogout}> Logout </MenuItem>
 

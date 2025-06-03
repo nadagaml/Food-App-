@@ -34,10 +34,17 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  padding: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.header-img 
+{
+  width: 78% !important;
 }
 
 .header-title {
-  color: #fff;
+  color: #fff; 
 }
 
 
@@ -46,7 +53,7 @@
 .sideBar-cont .ps-sidebar-container {
   background-color: #1F263E;
   height: 100vh;
-  border-top-right-radius:15%;
+  border-top-right-radius:70px;
 }
 
 .sideBar-cont .ps-menu-button 
@@ -106,4 +113,7 @@ border-radius: 50%;
 .custom-dropdown-item i {
   color: #009247;
 }
+
+/* upload file */
+
 
