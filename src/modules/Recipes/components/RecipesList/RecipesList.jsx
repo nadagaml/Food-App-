@@ -106,7 +106,7 @@ useEffect ( ()=>{
 
 
     {/* title */}
-        <div className='title d-flex justify-content-between p-4 align-items-center'>
+      <div className='title d-flex justify-content-between p-4 align-items-center'>
       <div className="titleCat">
         <h5>Recipe Table Details</h5>
       <p>You can check all details</p>
@@ -115,6 +115,8 @@ useEffect ( ()=>{
           Add New Item
         </button>
         </div>
+
+      <input className='form-control w-50 m-3' />
 
 
       {/* Table */}

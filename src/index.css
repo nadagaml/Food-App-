@@ -22,8 +22,8 @@
   background-color: #F7F7F7 !important;
 }
 .input-group-text {
-  color: rgba(0, 0, 0, 0.5) !important;       /* لون رمادي فاتح */
-  font-weight: 300 !important;  /* وزن خفيف */
+  color: rgba(0, 0, 0, 0.5) !important;      
+  font-weight: 300 !important;  
 }
 
 /* ******** Header ************ */
@@ -34,13 +34,13 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  padding: 20px;
+  /* padding: 20px; */
   border-radius: 16px;
   overflow: hidden;
 }
 .header-img 
 {
-  width: 78% !important;
+  width: 70% !important;
 }
 
 .header-title {

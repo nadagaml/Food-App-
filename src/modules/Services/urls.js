@@ -9,7 +9,7 @@ export const axiosInstance = axios.create({
 });
 
 
-// ****************** USERS **********************
+// ****************** USERS Auth **********************
 export const USERS_URLS = {
     LOGIN : `/Users/Login` , 
     FORGET_PASS : `/Users/Reset/Request` ,
@@ -41,3 +41,9 @@ export const TAGS_URLS = {
     GET_TAGS : `/tag/` ,
 }
 
+
+// ****************** USERS LIST **********************
+
+// export const UsersLIST = {
+//     GET_USERS = ``, 
+// }

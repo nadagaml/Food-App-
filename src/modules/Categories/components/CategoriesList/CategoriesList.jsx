@@ -225,6 +225,9 @@ export default function CategoriesList() {
         </Modal>
 
 
+
+            
+
       <div className="title d-flex justify-content-between p-4 align-items-center">
         <div className="titleCat">
           <h5>Categories Table Details</h5>
@@ -234,6 +237,7 @@ export default function CategoriesList() {
           Add New Category
         </button>
       </div>
+
 
       <div className="p-5">
         <table className="table table-striped">
