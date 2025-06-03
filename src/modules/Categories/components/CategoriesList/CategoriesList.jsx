@@ -16,7 +16,9 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 export default function CategoriesList() {
   const [CategoriesList, setCategoriesList] = useState([]);
   const [catId, setCatId] = useState(0);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(8);
+  const [totalPages, setTotalPages] = useState(1);
  
 
   
@@ -72,15 +74,22 @@ export default function CategoriesList() {
 
   // Get All Categories
   const getAllCategories = async (pageSize, pageNumber) => {
-    try {
-      let response = await axiosInstance.get(`${CATEGORIES_URLS.GET_CATEGORIES}`, {
-        params: { pageSize, pageNumber },
-      });
-      setCategoriesList(response.data.data);
-    } catch (error) {
-      console.log(error);
+  try {
+    const response = await axiosInstance.get(`${CATEGORIES_URLS.GET_CATEGORIES}`, {
+      params: { pageSize, pageNumber },
+    });
+
+    setCategoriesList(response.data.data);
+
+    // Optional: set total pages if available from response
+    if (response.data.totalNumberOfPages) {
+      setTotalPages(response.data.totalNumberOfPages);
     }
-  };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
   // Delete Category
   const deleteCategory = async () => {
@@ -132,9 +141,16 @@ export default function CategoriesList() {
     }
   };
 
-  useEffect(() => {
-    getAllCategories(8, 1);
-  }, []);
+  // paginaton
+  const handlePageChange = (pageNumber) => {
+  setCurrentPage(pageNumber);
+  getAllCategories(pageSize, pageNumber);
+};
+
+
+ useEffect(() => {
+  getAllCategories(pageSize, currentPage);
+}, [currentPage]);
 
   return (
     <>
@@ -270,6 +286,38 @@ export default function CategoriesList() {
             )}
           </tbody>
         </table>
+
+
+        <nav className="d-flex justify-content-center">
+  <ul className="pagination">
+    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+      <button
+        className="page-link"
+        onClick={() => handlePageChange(currentPage - 1)}
+      >
+        Previous
+      </button>
+    </li>
+
+    {Array.from({ length: totalPages }, (_, i) => (
+      <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
+        <button className="page-link" onClick={() => handlePageChange(i + 1)}>
+          {i + 1}
+        </button>
+      </li>
+    ))}
+
+    <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+      <button
+        className="page-link"
+        onClick={() => handlePageChange(currentPage + 1)}
+      >
+        Next
+      </button>
+    </li>
+  </ul>
+</nav>
+
       </div>
     </>
   );
