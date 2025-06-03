@@ -20,8 +20,6 @@ import UserList from './modules/User/components/UserList/UserList';
 import FavList from './modules/Favourites/components/FavList/FavList';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState ,useEffect} from 'react';
-import { jwtDecode } from 'jwt-decode';
 import ProtectedRoute from './modules/Shared/components/ProtectedRoute/ProtectedRoute';
 
 
@@ -29,38 +27,9 @@ function App() {
 
 
 
-  const [loginData, setLoginData] = useState('');
+ 
 
-  let saveLoginData = ()=>{
-    let encodedToken = localStorage.getItem('token');
-    let decodedToken = jwtDecode(encodedToken);
-    setLoginData(decodedToken)
-  }
-
-  useEffect(() => {
-    if(localStorage.getItem('token'))
-      saveLoginData();
   
-  }, [])
-  
-
-  // // logout function 
-  // function LogoutButton({setLoginData})
-  // {
-  //   let navigate = useNavigate();
-  
-  //   const handleLogout =()=>{
-  //       localStorage.removeItem('token');
-  //       setLoginData('');
-  //       navigate('/login');
-  //   }
-
-  //   return (
-  //   <button className="btn btn-danger" onClick={handleLogout}>
-  //     Logout
-  //   </button> 
-  //   );
-  // }
  
 const routes = createBrowserRouter([
 
@@ -70,11 +39,11 @@ const routes = createBrowserRouter([
     children :[
 
       {index:true, 
-        element:<Login saveLoginData={saveLoginData}/> 
+        element:<Login /> 
       },
 
        {path :'login' , 
-        element:<Login saveLoginData={saveLoginData}/> 
+        element:<Login /> 
       },
 
        {path :'register' , 
@@ -100,7 +69,7 @@ const routes = createBrowserRouter([
 
 
   {path: '/dashboard',
-    element: <ProtectedRoute loginData={loginData}> <MasterLayout  loginData={loginData}/> </ProtectedRoute>,
+    element: <ProtectedRoute> <MasterLayout/> </ProtectedRoute>,
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Dashboard /> },

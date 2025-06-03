@@ -4,9 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useContext } from 'react';
+import { AuthContext } from '../../../../context/AuthContext';
 
-export default function Login({saveLoginData}) {
+export default function Login() {
   const navigate = useNavigate();
+  let {saveLoginData} = useContext(AuthContext)
   let {
     register,
     formState: { errors },
