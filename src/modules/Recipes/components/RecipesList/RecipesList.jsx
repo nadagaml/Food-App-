@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../../../Shared/components/Header/Header'
 import RecipesImg from '../../../../assets/images/header.svg'
-import {axiosInstance, baseImage, RECIPES_URLS} from '../../../Services/urls'
+import {axiosInstance, baseImage, CATEGORIES_URLS, RECIPES_URLS, TAGS_URLS} from '../../../Services/urls'
 import NoData from '../../../Shared/components/NoData/NoData'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
@@ -16,7 +16,14 @@ export default function RecipesList() {
 
 const [RecipesList , setRecipesList] =useState([])
 const [recipeId , setrecipeId] = useState(0) 
-  const [arrayOfPages , setArrayOfPages] = useState ([]);
+const [arrayOfPages , setArrayOfPages] = useState ([]);
+const [tagesList, settagesList] = useState([]);
+const [CategoriesList, setCategoriesList] = useState([]);
+const [nameValue , setnameValue] = useState ('');
+const [tagValue , setTagValue] = useState ('');
+const [catValue , setCatValue] = useState ('');
+
+
 
 
 // show and hide the model in delete
@@ -32,13 +39,13 @@ const [recipeId , setrecipeId] = useState(0)
 
 // *********** URLS APIS ***************
 
-const getAllRecipes = async (pageSize , pageNumber) =>
+const getAllRecipes = async (pageSize , pageNumber ,name , tagId ,categoryId) =>
 {
   try
   {
     let response = await axiosInstance.get (
     `${RECIPES_URLS.GET_RECIPES}`,
-    {params :{pageSize ,pageNumber}}
+    {params :{pageSize , pageNumber , name , tagId , categoryId}}
   );
   console.log(response.data.data)
 
@@ -53,6 +60,25 @@ const getAllRecipes = async (pageSize , pageNumber) =>
 
 }
 
+  const getAllTages = async () => {
+    try {
+      const response = await axiosInstance.get(`${TAGS_URLS.GET_TAGS}`);
+      settagesList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getAllCategories = async (pageSize, pageNumber) => {
+    try {
+      const response = await axiosInstance.get(`${CATEGORIES_URLS.GET_CATEGORIES}`, {
+        params: { pageSize, pageNumber }
+      });
+      setCategoriesList(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 // Delete Categories by ID
 const deleteRecipe = async ()=>{
@@ -74,11 +100,32 @@ const deleteRecipe = async ()=>{
 
 }
 
+  // pagination
+  const getNameValue =(input)=>
+  {
+     setnameValue(input.target.value) // catch the value to sent to backend
+     getAllRecipes(3,1,input.target.value,tagValue , catValue) // sent it  
+  }
+
+    const getTagValue =(input)=>
+  {
+     setTagValue(input.target.value) // catch the value to sent to backend
+     getAllRecipes(3,1 , nameValue ,input.target.value , catValue) // sent it  
+  }
+
+    const getCatValue =(input)=>
+  {
+     setCatValue(input.target.value) // catch the value to sent to backend
+     getAllRecipes(3,1, nameValue , tagValue ,input.target.value ) // sent it  
+  }
+
 // Use Effect 
 
 useEffect ( ()=>{
-  getAllRecipes(3,1)
-}, [] )
+  getAllRecipes()
+   getAllTages();
+    getAllCategories(100,1);
+}, [] ) 
 
 
 
@@ -120,12 +167,55 @@ useEffect ( ()=>{
         </button>
         </div>
 
-      <input className='form-control w-50 m-3' />
-
 
       {/* Table */}
 
       <div className="p-5">
+    <div className="row align-items-end">
+
+  {/* Search by Name with Icon */}
+  <div className="col-md-6">
+    <div className="form-group position-relative mb-3">
+      <i className="fa fa-search position-absolute" style={{ top: '50%', left: '15px', transform: 'translateY(-50%)', color: '#aaa' }}></i>
+      <input 
+        type='text' 
+        className='form-control ps-5' 
+        placeholder='Search by name...' 
+        onChange={getNameValue} 
+      />
+    </div>
+  </div>
+
+  {/* Tag Dropdown */}
+  <div className="col-md-3">
+    <div className="form-group mb-3">
+      
+      <select className="form-control" onChange={getTagValue}>
+        <option value="">Select Tag</option>
+        {tagesList.map(tag => (
+          <option key={tag.id} value={tag.id}>{tag.name}</option>
+        ))}
+      </select>
+    </div>
+  </div>
+
+  {/* Category Dropdown */}
+  <div className="col-md-3">
+    <div className="form-group mb-3">
+     
+      <select className="form-control" onChange={getCatValue}>
+        <option value="">Select Category</option>
+        {CategoriesList.map(cat => (
+          <option key={cat.id} value={cat.id}>{cat.name}</option>
+        ))}
+      </select>
+    </div>
+  </div>
+
+</div>
+
+
+
         <table className='table table-striped'>
           <thead>
             <th>Item Name</th>

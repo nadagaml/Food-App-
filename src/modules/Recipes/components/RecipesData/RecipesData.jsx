@@ -79,7 +79,7 @@ export default function RecipesData() {
 
   useEffect(() => {
     getAllTages();
-    getAllCategories(10, 1);
+    getAllCategories();
   }, []);
 
   return (
