@@ -16,6 +16,8 @@ export default function RecipesList() {
 
 const [RecipesList , setRecipesList] =useState([])
 const [recipeId , setrecipeId] = useState(0) 
+  const [arrayOfPages , setArrayOfPages] = useState ([]);
+
 
 // show and hide the model in delete
   const [show, setShow] = useState(false);
@@ -39,6 +41,8 @@ const getAllRecipes = async (pageSize , pageNumber) =>
     {params :{pageSize ,pageNumber}}
   );
   console.log(response.data.data)
+
+  setArrayOfPages (Array (response.data.totalNumberOfPages).fill().map((_,i)=>i+1));
   setRecipesList (response.data.data);
   }
 
@@ -73,7 +77,7 @@ const deleteRecipe = async ()=>{
 // Use Effect 
 
 useEffect ( ()=>{
-  getAllRecipes(5,1)
+  getAllRecipes(3,1)
 }, [] )
 
 
@@ -155,6 +159,31 @@ useEffect ( ()=>{
           </tbody>
 
         </table>
+
+
+        
+<nav aria-label="Page navigation example">
+  <ul className="pagination">
+    <li className="page-item">
+      <a className="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+
+    {arrayOfPages.map(pageNo => 
+    <li onClick={()=>getAllRecipes(3,pageNo)} className="page-item">
+      <a className="page-link" >{pageNo}</a>
+    </li>)}        
+
+    
+    
+    <li className="page-item">
+      <a className="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
       </div>
     </>
   )

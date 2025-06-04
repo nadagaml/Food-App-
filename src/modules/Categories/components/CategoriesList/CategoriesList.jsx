@@ -16,9 +16,11 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 export default function CategoriesList() {
   const [CategoriesList, setCategoriesList] = useState([]);
   const [catId, setCatId] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(8);
-  const [totalPages, setTotalPages] = useState(1);
+  const [arrayOfPages , setArrayOfPages] = useState ([]);
+  const [nameValue , setnameValue] = useState ('');
+
+  
+
  
 
   
@@ -73,23 +75,18 @@ export default function CategoriesList() {
   };
 
   // Get All Categories
-  const getAllCategories = async (pageSize, pageNumber) => {
+  const getAllCategories = async (pageSize, pageNumber , name) => {
   try {
     const response = await axiosInstance.get(`${CATEGORIES_URLS.GET_CATEGORIES}`, {
-      params: { pageSize, pageNumber },
+      params: { pageSize, pageNumber , name},
     });
 
+    setArrayOfPages (Array (response.data.totalNumberOfPages).fill().map((_,i)=>i+1));
     setCategoriesList(response.data.data);
-
-    // Optional: set total pages if available from response
-    if (response.data.totalNumberOfPages) {
-      setTotalPages(response.data.totalNumberOfPages);
-    }
   } catch (error) {
     console.log(error);
   }
 };
-
 
   // Delete Category
   const deleteCategory = async () => {
@@ -141,16 +138,18 @@ export default function CategoriesList() {
     }
   };
 
-  // paginaton
-  const handlePageChange = (pageNumber) => {
-  setCurrentPage(pageNumber);
-  getAllCategories(pageSize, pageNumber);
-};
+  // pagination
+  const getNameValue =(input)=>
+  {
+     setnameValue(input.target.value) // catch the value to sent to backend
+     getAllCategories(5,1,input.target.value) // sent it  
+  }
+
 
 
  useEffect(() => {
-  getAllCategories(pageSize, currentPage);
-}, [currentPage]);
+  getAllCategories(3, 1 ,"");
+}, []);
 
   return (
     <>
@@ -240,6 +239,10 @@ export default function CategoriesList() {
 
 
       <div className="p-5">
+
+
+      <input type='text' className='form-control mb-3' placeholder='Search By Name ....' onChange={getNameValue} />
+
         <table className="table table-striped">
           <thead>
             <tr>
@@ -292,35 +295,29 @@ export default function CategoriesList() {
         </table>
 
 
-        <nav className="d-flex justify-content-center">
-  <ul className="pagination">
-    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-      <button
-        className="page-link"
-        onClick={() => handlePageChange(currentPage - 1)}
-      >
-        Previous
-      </button>
-    </li>
+      {CategoriesList.length > 0 ?
+        <nav aria-label="Page navigation example">
+          <ul className="pagination">
+            <li className="page-item">
+              <a className="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
 
-    {Array.from({ length: totalPages }, (_, i) => (
-      <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-        <button className="page-link" onClick={() => handlePageChange(i + 1)}>
-          {i + 1}
-        </button>
-      </li>
-    ))}
+            {arrayOfPages.map(pageNo => 
+            <li onClick={()=>getAllCategories(2,pageNo)} className="page-item">
+              <a className="page-link" >{pageNo}</a>
+            </li>)}        
 
-    <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-      <button
-        className="page-link"
-        onClick={() => handlePageChange(currentPage + 1)}
-      >
-        Next
-      </button>
-    </li>
-  </ul>
-</nav>
+            
+            
+            <li className="page-item">
+              <a className="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav> : ''}
 
       </div>
     </>

@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { Link, useNavigate } from 'react-router-dom';
 import SideBarLogo from '../../../../assets/images/SideBarLogo.png'
+import { AuthContext } from '../../../../context/AuthContext';
 
 export default function SideBar() {
 
@@ -15,7 +16,7 @@ export default function SideBar() {
 
   // filter the sidebar as admin or user
 
-  // let {loginData} = useContext('Nada')
+     let {loginData} = useContext(AuthContext)
 
 
   // logout
@@ -32,12 +33,10 @@ export default function SideBar() {
   <Menu>
     <MenuItem onClick={togglecollapse} className='my-5 sideBar-logo'> <img src={SideBarLogo} alt='sideBar logo'/></MenuItem>
     <MenuItem icon= {<i class="fa fa-home" aria-hidden="true"></i>} component={<Link to="/dashboard" />}> Home </MenuItem>
-    {/* {loginData.userGroup == 'SuperAdmin' ? <MenuItem icon= {<i class="fa fa-users" aria-hidden="true"></i>} component={<Link to="/dashboard/users" />}> Users </MenuItem> :''} */}
-    <MenuItem icon= {<i class="fa fa-users" aria-hidden="true"></i>} component={<Link to="/dashboard/users" />}> Users </MenuItem>
+    {loginData.userGroup == 'SuperAdmin' ? <MenuItem icon= {<i class="fa fa-users" aria-hidden="true"></i>} component={<Link to="/dashboard/users" />}> Users </MenuItem> :''}
     <MenuItem icon= {<i class="fa fa-cutlery" aria-hidden="true"></i>} component={<Link to="/dashboard/recipe" />}> Recipes </MenuItem>
-    <MenuItem icon= {<i class="fa fa-list" aria-hidden="true"></i>} component={<Link to="/dashboard/category" />}> Categories </MenuItem>
-    {/* {loginData.userGroup =='SuperAdmin'?  <MenuItem icon= {<i class="fa fa-list" aria-hidden="true"></i>} component={<Link to="/dashboard/category" />}> Categories </MenuItem> :''}    */}
-    {/* {loginData.userGroup  !='SuperAdmin' ? <MenuItem icon= {<i class="fa fa-heart" aria-hidden="true"></i>} component={<Link to="/dashboard/favs" />}> Favourite </MenuItem> : ''} */}
+    {loginData.userGroup =='SuperAdmin'?  <MenuItem icon= {<i class="fa fa-list" aria-hidden="true"></i>} component={<Link to="/dashboard/category" />}> Categories </MenuItem> :''}   
+    {loginData.userGroup  !='SuperAdmin' ? <MenuItem icon= {<i class="fa fa-heart" aria-hidden="true"></i>} component={<Link to="/dashboard/favs" />}> Favourite </MenuItem> : ''}
     <MenuItem icon= {<i class="fa fa-key" aria-hidden="true"></i>} component={<Link to="/dashboard/users" />}> Change Password </MenuItem>
     <MenuItem icon= {<i class="fa fa-sign-out" aria-hidden="true"></i>} onClick={handleLogout}> Logout </MenuItem>
 
