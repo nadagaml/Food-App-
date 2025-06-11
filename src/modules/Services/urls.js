@@ -31,7 +31,7 @@ export const RECIPES_URLS = {
     CREATE_RECIPY :`/Recipe/` , 
     DELETE_RECIPY : (id)=>`/Recipe/${id}` ,
     UPDATE_RECIPY : (id)=>`/Recipe/${id}`,
-
+ 
 }
 
 
@@ -47,3 +47,11 @@ export const TAGS_URLS = {
 // export const UsersLIST = {
 //     GET_USERS = ``, 
 // }
+
+// ****************** USERS LIST **********************
+export const USER_FAVS_URL = {
+    GET_FAVS : `/userRecipe/`,
+    CREATE_FAV : `/userRecipe/`,
+    DELETE_FAVS :(id)=> `/userRecipe/${id}`
+
+}

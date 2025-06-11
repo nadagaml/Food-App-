@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../../../Shared/components/Header/Header'
 import RecipesImg from '../../../../assets/images/header.svg'
-import {axiosInstance, baseImage, CATEGORIES_URLS, RECIPES_URLS, TAGS_URLS} from '../../../Services/urls'
+import {axiosInstance, baseImage, CATEGORIES_URLS, RECIPES_URLS, TAGS_URLS, USER_FAVS_URL} from '../../../Services/urls'
 import NoData from '../../../Shared/components/NoData/NoData'
-import { useNavigate } from 'react-router-dom'
+import { data, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -102,7 +102,25 @@ const deleteRecipe = async ()=>{
 
 }
 
-  // pagination
+let addToFavs  = async (recipeId)=>
+{
+
+    try {
+      let response = await axiosInstance.post(
+        `${USER_FAVS_URL.CREATE_FAV}`, {recipeId:recipeId}
+      );
+      toast.success(response.data.message)
+      navigate('/dashboard/favs')
+    }
+
+    catch(error)
+    {
+      console.log(error)
+    }
+
+}
+
+  //**************** */ pagination***********************
   const getNameValue =(input)=>
   {
      setnameValue(input.target.value) // catch the value to sent to backend
@@ -243,7 +261,11 @@ useEffect ( ()=>{
 
             
 
-          <i class="fa fa-eye" aria-hidden="true"></i> 
+          <i class="fa fa-eye mx-3" aria-hidden="true"></i> 
+          
+          {loginData?.userGroup == 'SystemUser' ?
+          <i onClick={()=>addToFavs(item.id)} class="fa fa-heart text-success" aria-hidden="true"></i>
+           : ''}
 
           {loginData?.userGroup !='SystemUser'?
           <i className="fas fa-edit mx-2 text-warning"
