@@ -44,9 +44,9 @@ export const TAGS_URLS = {
 
 // ****************** USERS LIST **********************
 
-// export const UsersLIST = {
-//     GET_USERS = ``, 
-// }
+export const UsersLIST = {
+    GET_USERS : `/Users`, 
+}
 
 // ****************** USERS LIST **********************
 export const USER_FAVS_URL = {

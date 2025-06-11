@@ -211,7 +211,8 @@ export default function CategoriesList() {
             {viewCategory && (
               <div>
                 <p><strong>Name:</strong> {viewCategory.name}</p>
-                <p><strong>Created at:</strong> {viewCategory.creationDate}</p>
+                <p><strong>Created at:</strong> {new Date(viewCategory.creationDate).toLocaleString()}</p>
+
               
               </div>
             )}
@@ -256,7 +257,8 @@ export default function CategoriesList() {
               CategoriesList.map((item) => (
                 <tr key={item.id}>
                   <td>{item.name}</td>
-                  <td>{item.creationDate}</td>
+                  <td>{new Date(item.creationDate).toLocaleString()}</td>
+
                   <td>
 
                 <Dropdown className="action-dropdown" drop="start">

@@ -1,19 +1,42 @@
-import React, { useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import Header from '../../../Shared/components/Header/Header'
 import RecipesImg from '../../../../assets/images/header.svg'
+import { axiosInstance, baseImage, UsersLIST } from '../../../Services/urls'
+import NoData from '../../../Shared/components/NoData/NoData'
 
 export default function UserList() {
 
   // ********* USE State ******************
 
-  const [UserList , serUserList] = useState ([])
+  const [UserList , setUserList] = useState ([])
 
 
 
   // *********** URLS APIS ***************
 
-  
+const getAllUser = async ()=>
+{
+  try{
+      let response = await axiosInstance.get(
+        `${UsersLIST.GET_USERS}`
+      );
+      console.log(response.data.data);
+      setUserList (response.data.data);
+  }
 
+  catch(error)
+  {
+      console.log(error);
+      
+  }
+}
+
+  
+// Use Effect 
+
+useEffect ( ()=>{
+ getAllUser();
+}, [] ) 
 
 
 
@@ -46,14 +69,31 @@ export default function UserList() {
         <thead>
           <th>Name</th>
           <th>Image</th>
-          <th>Price</th>
-          <th>Description</th>
-          <th>Discount</th>
-          <th>Category</th>
+          <th>Email</th>
+          <th>Country</th>
+          <th>Phone Number</th>
+          <th>Creation</th>
+          <th>Action</th>
+          
         </thead>
 
         <tbody>
-
+          {UserList.length>0 ? UserList.map( (user)=>  
+          
+          
+          <tr>
+            <td>{user.userName}</td>
+            <td> <img className='item-img' src= {`${baseImage}${user.imagePath}`} alt="" />   </td>
+            <td>{user.email}</td>
+            <td>{user.country}</td>
+            <td>{user.phoneNumber}</td>
+            <td>{new Date(user.creationDate).toLocaleString()}</td>
+            <td>{new Date(user.creationDate).toLocaleDateString()}</td>
+          
+            
+          </tr> 
+          
+          ): <NoData/> }
         </tbody>
 
       </table>
