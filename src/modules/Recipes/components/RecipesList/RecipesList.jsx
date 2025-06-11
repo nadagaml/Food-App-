@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Header from '../../../Shared/components/Header/Header'
 import RecipesImg from '../../../../assets/images/header.svg'
 import {axiosInstance, baseImage, CATEGORIES_URLS, RECIPES_URLS, TAGS_URLS} from '../../../Services/urls'
@@ -8,9 +8,11 @@ import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import DeleteConfirmation from '../../../Shared/components/DeleteConfirmation/DeleteConfirmation';
+import { AuthContext } from '../../../../context/AuthContext'
 export default function RecipesList() {
 
   let navigate = useNavigate()
+  let {loginData} = useContext (AuthContext)
 
 // ********* USE State ******************
 
@@ -122,7 +124,7 @@ const deleteRecipe = async ()=>{
 // Use Effect 
 
 useEffect ( ()=>{
-  getAllRecipes()
+  getAllRecipes(3,1)
    getAllTages();
     getAllCategories(100,1);
 }, [] ) 
@@ -162,9 +164,10 @@ useEffect ( ()=>{
         <h5>Recipe Table Details</h5>
       <p>You can check all details</p>
       </div>
+      {loginData?.userGroup !=='SystemUser'? 
         <button className='btn btn-custom-green' onClick={()=> navigate('/dashboard/recipe-data')}>
           Add New Item
-        </button>
+        </button> :''}
         </div>
 
 
@@ -237,10 +240,17 @@ useEffect ( ()=>{
               <td>{item.tag.name}</td>
               <td>{item.category[0].name}</td>
               <td> 
-        <i class="fa fa-eye" aria-hidden="true"></i>
-         <i className="fas fa-edit mx-2 text-warning"
-   onClick={() => navigate('/dashboard/recipe-data', { state: { recipe: item } })}></i>
-         <i  onClick={()=> handleShow(item.id)} class="fa fa-trash text-danger" aria-hidden="true"></i>
+
+            
+
+          <i class="fa fa-eye" aria-hidden="true"></i> 
+
+          {loginData?.userGroup !='SystemUser'?
+          <i className="fas fa-edit mx-2 text-warning"
+               onClick={() => navigate('/dashboard/recipe-data', { state: { recipe: item } })}></i>:''}
+
+            {loginData?.userGroup !='SystemUser'?   
+          <i  onClick={()=> handleShow(item.id)} class="fa fa-trash text-danger" aria-hidden="true"></i> :''}
         </td> 
             </tr>
 

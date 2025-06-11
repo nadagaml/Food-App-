@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AuthContext } from '../../../../context/AuthContext'
 
 export default function Header({title , description ,imgPath}) {
+
+
+  let {loginData} = useContext(AuthContext)
+ 
+
   return (
     <>
     
@@ -8,7 +14,7 @@ export default function Header({title , description ,imgPath}) {
       <div className="row ">
         <div className="col-md-8  d-flex align-items-center">
           <div className='header-title'>
-            <h3>{title}</h3>
+            <h3>{title} {loginData?.userName}</h3>
           <p>{description}</p>
           </div>
         </div>

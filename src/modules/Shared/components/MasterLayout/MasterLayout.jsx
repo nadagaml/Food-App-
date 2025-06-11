@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import Sidebar from '../Sidebar/Sidebar'
 import Navbar from '../Navbar/Navbar'
 import { Outlet } from 'react-router-dom'
 import Header from '../Header/Header'
 import { AuthContext } from '../../../../context/AuthContext'
+import SideBar from '../Sidebar/Sidebar'
 
 export default function MasterLayout() {
 
@@ -16,7 +16,7 @@ export default function MasterLayout() {
 
     <div className='d-flex'>
       <div className="">
-            <Sidebar/>
+            <SideBar/>
       </div>
 
       <div className="w-100">
