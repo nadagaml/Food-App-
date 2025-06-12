@@ -14,6 +14,8 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 
 
 export default function CategoriesList() {
+
+  // ********* USE State ******************
   const [CategoriesList, setCategoriesList] = useState([]);
   const [catId, setCatId] = useState(0);
   const [arrayOfPages , setArrayOfPages] = useState ([]);
@@ -23,7 +25,7 @@ export default function CategoriesList() {
 
  
 
-  
+  // delete model
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = (id) => {
@@ -31,10 +33,11 @@ export default function CategoriesList() {
     setShow(true);
   };
 
+  //Add Model
   const [showAdd, setShowAdd] = useState(false);
   const handleCloseAdd = () => setShowAdd(false);
 
-  // states foe view model
+  // states for view model
   const [showView , setshowView] = useState(false);
   const [viewCategory, setViewCategory] = useState(null);
 
@@ -61,6 +64,8 @@ export default function CategoriesList() {
     reset,
   } = useForm();
 
+
+
   const handleShowAdd = (category = null) => {
     if (category) {
       setIsEditMode(true);
@@ -73,6 +78,9 @@ export default function CategoriesList() {
     }
     setShowAdd(true);
   };
+
+
+// *********** URLS APIS ***************
 
   // Get All Categories
   const getAllCategories = async (pageSize, pageNumber , name) => {
@@ -138,7 +146,9 @@ export default function CategoriesList() {
     }
   };
 
-  // pagination
+
+
+   //**************** */ pagination***********************
   const getNameValue =(input)=>
   {
      setnameValue(input.target.value) // catch the value to sent to backend
@@ -146,7 +156,7 @@ export default function CategoriesList() {
   }
 
 
-
+// **************** Use Effect *********************
  useEffect(() => {
   getAllCategories(3, 1 ,"");
 }, []);

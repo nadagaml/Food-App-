@@ -3,7 +3,7 @@ import Header from '../../../Shared/components/Header/Header'
 import RecipesImg from '../../../../assets/images/header.svg'
 import {axiosInstance, baseImage, CATEGORIES_URLS, RECIPES_URLS, TAGS_URLS, USER_FAVS_URL} from '../../../Services/urls'
 import NoData from '../../../Shared/components/NoData/NoData'
-import { data, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -26,6 +26,7 @@ const [tagValue , setTagValue] = useState ('');
 const [catValue , setCatValue] = useState ('');
 
 
+
  
 
 // show and hide the model in delete
@@ -38,6 +39,23 @@ const [catValue , setCatValue] = useState ('');
       setrecipeId(id);
       setShow(true)
   };
+
+
+  // show and hide model in view 
+    const [showView , setshowView] = useState(false);
+    const [viewUser, setViewUser] = useState(null);
+
+      const handleCloseView = ()=>{
+      setshowView (false)
+      setViewUser(null)
+  }
+
+    const handleShowView  = (user) =>
+  {
+    setViewUser(user);
+      setshowView(true);
+  }
+  
 
 // *********** URLS APIS ***************
 
@@ -120,7 +138,7 @@ let addToFavs  = async (recipeId)=>
 
 }
 
-  //**************** */ pagination***********************
+  //****************  pagination***********************
   const getNameValue =(input)=>
   {
      setnameValue(input.target.value) // catch the value to sent to backend
@@ -139,7 +157,7 @@ let addToFavs  = async (recipeId)=>
      getAllRecipes(3,1, nameValue , tagValue ,input.target.value ) // sent it  
   }
 
-// Use Effect 
+// **************** Use Effect *********************
 
 useEffect ( ()=>{
   getAllRecipes(3,1)
@@ -174,6 +192,43 @@ useEffect ( ()=>{
 
     {/* End Of Delete Model  */}
 
+
+       {/* View Modal */}
+        <Modal show={showView} onHide={handleCloseView}>
+          <Modal.Header closeButton>
+            <Modal.Title>Category Details</Modal.Title>
+          </Modal.Header>
+         <Modal.Body>
+  {viewUser && (
+    <div>
+      <p><strong>Name:</strong> {viewUser.name}</p>
+      <p><strong>Price:</strong> {viewUser.price}</p>
+      <p><strong>Tag:</strong> {viewUser.tag.name}</p>
+      <p><strong>Description:</strong> {viewUser.description}</p>
+      <p><strong>Category:</strong> {viewUser.category[0].name}</p>
+
+      <p><strong>Created at:</strong> {new Date(viewUser.creationDate).toLocaleString()}</p>
+
+
+      <div className="d-flex justify-content-center my-3">
+        <img
+          src={`${baseImage}${viewUser.imagePath}`}
+          alt=""
+          className="img-fluid rounded shadow"
+          style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'cover' }}
+        />
+      </div>
+    </div>
+  )}
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseView}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+    {/* End Of view Model  */}
 
 
     {/* title */}
@@ -257,11 +312,9 @@ useEffect ( ()=>{
               <td>{item.description}</td>
               <td>{item.tag.name}</td>
               <td>{item.category[0].name}</td>
+
               <td> 
-
-            
-
-          <i class="fa fa-eye mx-3" aria-hidden="true"></i> 
+          <i onClick={() => handleShowView(item)} class="fa fa-eye mx-3" aria-hidden="true"></i> 
           
           {loginData?.userGroup == 'SystemUser' ?
           <i onClick={()=>addToFavs(item.id)} class="fa fa-heart text-success" aria-hidden="true"></i>
@@ -274,6 +327,7 @@ useEffect ( ()=>{
             {loginData?.userGroup !='SystemUser'?   
           <i  onClick={()=> handleShow(item.id)} class="fa fa-trash text-danger" aria-hidden="true"></i> :''}
         </td> 
+
             </tr>
 
             ) : <NoData/> }

@@ -45,7 +45,10 @@ export const TAGS_URLS = {
 // ****************** USERS LIST **********************
 
 export const UsersLIST = {
-    GET_USERS : `/Users`, 
+    GET_USERS : `/Users`,
+    DELETE_USER : (id)=> `/Users/${id}` ,
+    
+
 }
 
 // ****************** USERS LIST **********************
