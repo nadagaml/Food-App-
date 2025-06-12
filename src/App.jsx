@@ -21,6 +21,7 @@ import FavList from './modules/Favourites/components/FavList/FavList';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProtectedRoute from './modules/Shared/components/ProtectedRoute/ProtectedRoute';
+import ChangePass from './modules/Authentication/components/Change-pass/ChangePass';
 
 
 function App() {
@@ -58,6 +59,7 @@ const routes = createBrowserRouter([
         element:<ForgetPass/> 
       },
 
+
       {path :'verify-account' , 
         element:<VerifyAccount/> 
       },
@@ -78,6 +80,7 @@ const routes = createBrowserRouter([
       { path: 'category', element: <CategoriesList /> },
       { path: 'category-data', element: <CategoriesData /> },
       { path: 'users', element: <UserList /> },
+       {path :'change-pass' , element:<ChangePass/> },
       { path: 'favs', element: <FavList /> },
 
     ]

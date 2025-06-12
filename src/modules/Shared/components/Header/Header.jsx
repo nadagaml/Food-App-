@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../../../../context/AuthContext'
 
-export default function Header({title , description ,imgPath}) {
+
+export default function Header({title , description ,imgPath ,showChangePasswordModal, closeModal  }) {
 
 
   let {loginData} = useContext(AuthContext)
@@ -26,6 +27,14 @@ export default function Header({title , description ,imgPath}) {
       </div>
     </div>
     
+
+   <showChangePasswordModal 
+    show={showChangePasswordModal}
+    handleClose={closeModal}
+   />
+
+    
+
     </>
   )
 } 

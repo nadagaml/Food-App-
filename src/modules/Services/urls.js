@@ -13,7 +13,8 @@ export const axiosInstance = axios.create({
 export const USERS_URLS = {
     LOGIN : `/Users/Login` , 
     FORGET_PASS : `/Users/Reset/Request` ,
-    RESET_PASS : `/Users/Reset`
+    RESET_PASS : `/Users/Reset`,
+    CHANGE_PASSWORD: `/Users/ChangePassword`,
 };
 
 // **************** CATEGORIES **************

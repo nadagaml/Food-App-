@@ -16,6 +16,7 @@ export default function UserList() {
 
   const [UserList , setUserList] = useState ([])
   const [userId , setUserId] = useState(0) 
+  const [nameValue , setnameValue] = useState ('');
  
 
 
@@ -51,11 +52,13 @@ export default function UserList() {
 
   // *********** URLS APIS ***************
 
-const getAllUser = async ()=>
+const getAllUser = async (name='')=>
 {
   try{
+    console.log("Searching for name:", name); // 👈 Add this
       let response = await axiosInstance.get(
-        `${UsersLIST.GET_USERS}`
+        `${UsersLIST.GET_USERS}`,
+        {params :{name}}
       );
       console.log(response.data.data);
       setUserList (response.data.data);
@@ -86,6 +89,14 @@ const deleteUser = async ()=>
     
   }
 }
+
+
+  //****************  pagination***********
+  const getNameValue = (input)=>{
+     setnameValue(input.target.value) // catch the value to sent to backend
+     getAllUser(input.target.value) // sent it  
+  }
+
 
 
   
@@ -165,13 +176,30 @@ useEffect ( ()=>{
 
 
     <div className="p-5">
-      <table className='table table-striped'>
+    <div className="row align-items-end">
+
+        {/* Search by Name with Icon */}
+          <div className="col-md-6">
+            <div className="form-group position-relative mb-3">
+              <i className="fa fa-search position-absolute" style={{ top: '50%', left: '15px', transform: 'translateY(-50%)', color: '#aaa' }}></i>
+              <input 
+                type='text' 
+                className='form-control ps-5' 
+                placeholder='Search by name...' 
+                onChange={getNameValue} 
+              />
+            </div>
+          </div>
+    </div>
+
+
+      <table className='table table-striped p-2'>
         <thead>
           <th>Name</th>
-          <th>Image</th>
           <th>Email</th>
           <th>Country</th>
           <th>Phone Number</th>
+          <th>Role</th>
           <th>Creation</th>
           <th>Action</th>
           
@@ -183,10 +211,11 @@ useEffect ( ()=>{
           
           <tr>
             <td>{user.userName}</td>
-            <td> <img className='item-img' src= {`${baseImage}${user.imagePath}`} alt="" />   </td>
+            {/* <td> <img className='item-img' src= {`${baseImage}${user.imagePath}`} alt="" />   </td> */}
             <td>{user.email}</td>
             <td>{user.country}</td>
             <td>{user.phoneNumber}</td>
+            <td>{user.group.name}</td>
             <td>{new Date(user.creationDate).toLocaleString()}</td>
 
             <td>
@@ -202,6 +231,8 @@ useEffect ( ()=>{
         </tbody>
 
       </table>
+
+
     </div>
 
 

@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import SideBarLogo from '../../../../assets/images/SideBarLogo.png'
 import { AuthContext } from '../../../../context/AuthContext';
 
-export default function SideBar() {
+export default function SideBar({onChangePasswordClick}) {
 
   const [iscollapsed , setIscollapsed] = useState(false)
   const navigate = useNavigate();
@@ -37,7 +37,12 @@ export default function SideBar() {
     <MenuItem icon= {<i class="fa fa-cutlery" aria-hidden="true"></i>} component={<Link to="/dashboard/recipe" />}> Recipes </MenuItem>
     {loginData.userGroup =='SuperAdmin'?  <MenuItem icon= {<i class="fa fa-list" aria-hidden="true"></i>} component={<Link to="/dashboard/category" />}> Categories </MenuItem> :''}   
     {loginData.userGroup  !='SuperAdmin' ? <MenuItem icon= {<i class="fa fa-heart" aria-hidden="true"></i>} component={<Link to="/dashboard/favs" />}> Favourite </MenuItem> : ''}
-    <MenuItem icon= {<i class="fa fa-key" aria-hidden="true"></i>} component={<Link to="/dashboard/users" />}> Change Password </MenuItem>
+    {/* <MenuItem icon= {<i class="fa fa-key" aria-hidden="true"></i>} component={<Link to="/dashboard/change-pass" />}> Change Password </MenuItem> */}
+
+    <MenuItem icon={<i className="fa fa-key" />} onClick={onChangePasswordClick}>
+            Change Password
+          </MenuItem>
+
     <MenuItem icon= {<i class="fa fa-sign-out" aria-hidden="true"></i>} onClick={handleLogout}> Logout </MenuItem>
 
   </Menu>
