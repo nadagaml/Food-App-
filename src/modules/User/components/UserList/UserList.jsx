@@ -31,6 +31,24 @@ export default function UserList() {
         setShow(true)
     };
 
+    //show and hide view model 
+        const [showView , setshowView] = useState(false);
+        const [viewUser, setViewUser] = useState(null);
+
+            //clsoe
+             const handleCloseView = ()=>{
+               setshowView (false)
+              setViewUser(null)
+             }
+
+            //show
+            const handleShowView  = (user) =>
+              {
+                setViewUser(user);
+                  setshowView(true);
+              }
+  
+
   // *********** URLS APIS ***************
 
 const getAllUser = async ()=>
@@ -91,7 +109,7 @@ useEffect ( ()=>{
         <Header imgPath={RecipesImg} title={'Users List'} description={'You can now add your items that any user can order it from the Application and you can edit'}/>
     
     
-        {/* Delete Model */}
+    {/* Delete Model */}
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -109,6 +127,31 @@ useEffect ( ()=>{
       </Modal>
 
     {/* End Of Delete Model  */}
+
+          {/* View Modal */}
+            <Modal show={showView} onHide={handleCloseView}>
+              <Modal.Header closeButton>
+                <Modal.Title>Category Details</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {viewUser && (
+                  <div>
+                    <p><strong>Name:</strong> {viewUser.userName}</p>
+                    <p><strong>Email:</strong> {viewUser.email}</p>
+                    <p><strong>phoneNumber:</strong> {viewUser.phoneNumber}</p>
+                    <p><strong>phoneNumber:</strong> {viewUser.country}</p>
+                    <p><strong>Created at:</strong> {new Date(viewUser.creationDate).toLocaleString()}</p>
+    
+                  
+                  </div>
+                )}
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseView}>
+                  Close
+                </Button>
+              </Modal.Footer>
+            </Modal>
 
     
     {/* title */}
@@ -147,7 +190,7 @@ useEffect ( ()=>{
             <td>{new Date(user.creationDate).toLocaleString()}</td>
 
             <td>
-              <i class="fa fa-eye mx-3" aria-hidden="true"></i>
+              <i onClick={()=> handleShowView(user)} class="fa fa-eye mx-3" aria-hidden="true"></i>
                {loginData?.userGroup !='SystemUser'?   
           <i  onClick={()=> handleShow(user.id)} class="fa fa-trash text-danger" aria-hidden="true"></i> :''} 
             </td>

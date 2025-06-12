@@ -43,16 +43,16 @@ const [catValue , setCatValue] = useState ('');
 
   // show and hide model in view 
     const [showView , setshowView] = useState(false);
-    const [viewUser, setViewUser] = useState(null);
+    const [viewRecipe, setviewRecipe] = useState(null);
 
       const handleCloseView = ()=>{
       setshowView (false)
-      setViewUser(null)
+      setviewRecipe(null)
   }
 
-    const handleShowView  = (user) =>
+    const handleShowView  = (recipe) =>
   {
-    setViewUser(user);
+    setviewRecipe(recipe);
       setshowView(true);
   }
   
@@ -199,20 +199,20 @@ useEffect ( ()=>{
             <Modal.Title>Category Details</Modal.Title>
           </Modal.Header>
          <Modal.Body>
-  {viewUser && (
+  {viewRecipe && (
     <div>
-      <p><strong>Name:</strong> {viewUser.name}</p>
-      <p><strong>Price:</strong> {viewUser.price}</p>
-      <p><strong>Tag:</strong> {viewUser.tag.name}</p>
-      <p><strong>Description:</strong> {viewUser.description}</p>
-      <p><strong>Category:</strong> {viewUser.category[0].name}</p>
+      <p><strong>Name:</strong> {viewRecipe.name}</p>
+      <p><strong>Price:</strong> {viewRecipe.price}</p>
+      <p><strong>Tag:</strong> {viewRecipe.tag.name}</p>
+      <p><strong>Description:</strong> {viewRecipe.description}</p>
+      <p><strong>Category:</strong> {viewRecipe.category[0].name}</p>
 
-      <p><strong>Created at:</strong> {new Date(viewUser.creationDate).toLocaleString()}</p>
+      <p><strong>Created at:</strong> {new Date(viewRecipe.creationDate).toLocaleString()}</p>
 
 
       <div className="d-flex justify-content-center my-3">
         <img
-          src={`${baseImage}${viewUser.imagePath}`}
+          src={`${baseImage}${viewRecipe.imagePath}`}
           alt=""
           className="img-fluid rounded shadow"
           style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'cover' }}
