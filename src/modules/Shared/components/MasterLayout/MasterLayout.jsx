@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import Navbar from '../Navbar/Navbar'
 import { Outlet } from 'react-router-dom'
-import Header from '../Header/Header'
 import { AuthContext } from '../../../../context/AuthContext'
 import SideBar from '../Sidebar/Sidebar'
 
@@ -14,18 +13,17 @@ export default function MasterLayout() {
   return (
     <>
 
-    <div className='d-flex'>
-      <div className="">
-            <SideBar/>
-      </div>
+   <div className="layout-container">
+  <div className="sideBar-cont">
+    <SideBar />
+  </div>
 
-      <div className="w-100">
-        <Navbar  loginData={loginData}/>
-        {/* <Header/> */}
-        <Outlet/>
-      </div>
-      
-    </div>
+  <div className="main-content w-100">
+    <Navbar loginData={loginData} />
+    <Outlet />
+  </div>
+</div>
+
     
     
     </>

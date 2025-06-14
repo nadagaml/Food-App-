@@ -17,6 +17,9 @@ export default function UserList() {
   const [UserList , setUserList] = useState ([])
   const [userId , setUserId] = useState(0) 
   const [nameValue , setnameValue] = useState ('');
+  const [loading, setLoading] = useState(false);
+
+
  
 
 
@@ -54,8 +57,9 @@ export default function UserList() {
 
 const getAllUser = async (name='')=>
 {
+  setLoading(true);
   try{
-    console.log("Searching for name:", name); // 👈 Add this
+    
       let response = await axiosInstance.get(
         `${UsersLIST.GET_USERS}`,
         {params :{name}}
@@ -68,6 +72,9 @@ const getAllUser = async (name='')=>
   {
       console.log(error);
       
+  }
+  finally {
+    setLoading(false); 
   }
 }
 
@@ -139,30 +146,56 @@ useEffect ( ()=>{
 
     {/* End Of Delete Model  */}
 
-          {/* View Modal */}
-            <Modal show={showView} onHide={handleCloseView}>
-              <Modal.Header closeButton>
-                <Modal.Title>Category Details</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                {viewUser && (
-                  <div>
-                    <p><strong>Name:</strong> {viewUser.userName}</p>
-                    <p><strong>Email:</strong> {viewUser.email}</p>
-                    <p><strong>phoneNumber:</strong> {viewUser.phoneNumber}</p>
-                    <p><strong>phoneNumber:</strong> {viewUser.country}</p>
-                    <p><strong>Created at:</strong> {new Date(viewUser.creationDate).toLocaleString()}</p>
-    
-                  
-                  </div>
-                )}
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseView}>
-                  Close
-                </Button>
-              </Modal.Footer>
-            </Modal>
+<Modal show={showView} onHide={handleCloseView} centered size="md">
+  <Modal.Header closeButton>
+    <Modal.Title className="fw-bold text-success">
+      <i className="fa fa-user-circle me-2"></i> User Details
+    </Modal.Title>
+  </Modal.Header>
+
+  <Modal.Body>
+    {viewUser && (
+      <div className="p-3">
+        <div className="mb-3 d-flex align-items-center">
+          <i className="fa fa-user text-success me-2"></i>
+          <strong className="me-2">Name:</strong>
+          <span>{viewUser.userName}</span>
+        </div>
+
+        <div className="mb-3 d-flex align-items-center">
+          <i className="fa fa-envelope text-primary me-2"></i>
+          <strong className="me-2">Email:</strong>
+          <span>{viewUser.email}</span>
+        </div>
+
+        <div className="mb-3 d-flex align-items-center">
+          <i className="fa fa-phone text-warning me-2"></i>
+          <strong className="me-2">Phone:</strong>
+          <span>{viewUser.phoneNumber}</span>
+        </div>
+
+        <div className="mb-3 d-flex align-items-center">
+          <i className="fa fa-globe text-info me-2"></i>
+          <strong className="me-2">Country:</strong>
+          <span>{viewUser.country}</span>
+        </div>
+
+        <div className="mb-3 d-flex align-items-center">
+          <i className="fa fa-calendar text-secondary me-2"></i>
+          <strong className="me-2">Created At:</strong>
+          <span>{new Date(viewUser.creationDate).toLocaleString()}</span>
+        </div>
+      </div>
+    )}
+  </Modal.Body>
+
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleCloseView}>
+      <i className="fa fa-times me-1"></i> Close
+    </Button>
+  </Modal.Footer>
+</Modal>
+
 
     
     {/* title */}
@@ -176,23 +209,14 @@ useEffect ( ()=>{
 
 
     <div className="p-5">
-    <div className="row align-items-end">
 
-        {/* Search by Name with Icon */}
-          <div className="col-md-6">
-            <div className="form-group position-relative mb-3">
-              <i className="fa fa-search position-absolute" style={{ top: '50%', left: '15px', transform: 'translateY(-50%)', color: '#aaa' }}></i>
-              <input 
-                type='text' 
-                className='form-control ps-5' 
-                placeholder='Search by name...' 
-                onChange={getNameValue} 
-              />
-            </div>
-          </div>
+{loading ? (
+  <div className="text-center my-5">
+    <div className="spinner-border text-success" role="status">
+      <span className="visually-hidden">Loading...</span>
     </div>
-
-
+  </div>
+) : (
       <table className='table table-striped p-2'>
         <thead>
           <th>Name</th>
@@ -218,11 +242,41 @@ useEffect ( ()=>{
             <td>{user.group.name}</td>
             <td>{new Date(user.creationDate).toLocaleString()}</td>
 
-            <td>
-              <i onClick={()=> handleShowView(user)} class="fa fa-eye mx-3" aria-hidden="true"></i>
-               {loginData?.userGroup !='SystemUser'?   
-          <i  onClick={()=> handleShow(user.id)} class="fa fa-trash text-danger" aria-hidden="true"></i> :''} 
-            </td>
+<td>
+  <div className="dropdown text-center">
+    <i
+      className="fa fa-ellipsis-h fs-5 cursor-pointer"
+      id={`dropdownMenuButton${user.id}`}
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      style={{ color: '#198754', cursor: 'pointer' }}
+    ></i>
+
+    <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton${user.id}`}>
+      <li>
+        <button
+          className="dropdown-item text-primary d-flex align-items-center"
+          onClick={() => handleShowView(user)}
+        >
+          <i className="fa fa-eye me-2"></i> View
+        </button>
+      </li>
+
+      {loginData?.userGroup !== 'SystemUser' && (
+        <li>
+          <button
+            className="dropdown-item text-danger d-flex align-items-center"
+            onClick={() => handleShow(user.id)}
+          >
+            <i className="fa fa-trash me-2"></i> Delete
+          </button>
+        </li>
+      )}
+    </ul>
+  </div>
+</td>
+
+
           
             
           </tr> 
@@ -231,7 +285,7 @@ useEffect ( ()=>{
         </tbody>
 
       </table>
-
+)}
 
     </div>
 

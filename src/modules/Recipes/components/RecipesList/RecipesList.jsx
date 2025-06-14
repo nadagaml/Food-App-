@@ -24,6 +24,8 @@ const [CategoriesList, setCategoriesList] = useState([]);
 const [nameValue , setnameValue] = useState ('');
 const [tagValue , setTagValue] = useState ('');
 const [catValue , setCatValue] = useState ('');
+const [loading, setLoading] = useState(false);
+
 
 
 
@@ -61,6 +63,7 @@ const [catValue , setCatValue] = useState ('');
 
 const getAllRecipes = async (pageSize , pageNumber ,name , tagId ,categoryId) =>
 {
+   setLoading(true);
   try
   {
     let response = await axiosInstance.get (
@@ -76,6 +79,9 @@ const getAllRecipes = async (pageSize , pageNumber ,name , tagId ,categoryId) =>
   catch(error)
   {
     console.log(error)
+  }
+  finally {
+    setLoading(false); 
   }
 
 }
@@ -110,7 +116,7 @@ const deleteRecipe = async ()=>{
 
       getAllRecipes();
       handleClose()
-      toast.success("category Deleted");
+      toast.success("Recipe Deleted");
   }
 
   catch (error)
@@ -203,9 +209,9 @@ useEffect ( ()=>{
     <div>
       <p><strong>Name:</strong> {viewRecipe.name}</p>
       <p><strong>Price:</strong> {viewRecipe.price}</p>
-      <p><strong>Tag:</strong> {viewRecipe.tag.name}</p>
+      <p><strong>Tag:</strong> {viewRecipe.tag?.name || 'No Tag'}</p>
       <p><strong>Description:</strong> {viewRecipe.description}</p>
-      <p><strong>Category:</strong> {viewRecipe.category[0].name}</p>
+      <p><strong>Category:</strong> {viewRecipe.category?.[0]?.name || 'No Category'}</p>
 
       <p><strong>Created at:</strong> {new Date(viewRecipe.creationDate).toLocaleString()}</p>
 
@@ -247,94 +253,117 @@ useEffect ( ()=>{
       {/* Table */}
 
       <div className="p-5">
-    <div className="row align-items-end">
+ <div className="row align-items-end">
 
-  {/* Search by Name with Icon */}
-  <div className="col-md-6">
-    <div className="form-group position-relative mb-3">
-      <i className="fa fa-search position-absolute" style={{ top: '50%', left: '15px', transform: 'translateY(-50%)', color: '#aaa' }}></i>
-      <input 
-        type='text' 
-        className='form-control ps-5' 
-        placeholder='Search by name...' 
-        onChange={getNameValue} 
-      />
+    {/* Search Input */}
+    <div className="col-md-6">
+      <div className="form-group position-relative mb-3">
+        <i
+          className="fa fa-search position-absolute"
+          style={{
+            top: '50%',
+            left: '15px',
+            transform: 'translateY(-50%)',
+            color: '#aaa',
+            zIndex: 10,
+          }}
+        ></i>
+        <input
+          type="text"
+          className="form-control ps-5 custom-input"
+          placeholder="Search by name..."
+          onChange={getNameValue}
+        />
+      </div>
     </div>
+
+    {/* Tag Dropdown */}
+    <div className="col-md-3">
+      <div className="form-group mb-3">
+        <select className="form-control custom-input" onChange={getTagValue}>
+          <option value="">Select Tag</option>
+          {tagesList.map(tag => (
+            <option key={tag.id} value={tag.id}>
+              {tag.name}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+
+    {/* Category Dropdown */}
+    <div className="col-md-3">
+      <div className="form-group mb-3">
+        <select className="form-control custom-input" onChange={getCatValue}>
+          <option value="">Select Category</option>
+          {CategoriesList.map(cat => (
+            <option key={cat.id} value={cat.id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+
   </div>
 
-  {/* Tag Dropdown */}
-  <div className="col-md-3">
-    <div className="form-group mb-3">
-      
-      <select className="form-control" onChange={getTagValue}>
-        <option value="">Select Tag</option>
-        {tagesList.map(tag => (
-          <option key={tag.id} value={tag.id}>{tag.name}</option>
-        ))}
-      </select>
+
+{loading ? (
+  <div className="text-center my-5">
+    <div className="spinner-border text-success" role="status">
+      <span className="visually-hidden">Loading...</span>
     </div>
   </div>
+) : (
+  <table className='table table-striped table-custom'>
+    <thead>
+      <tr>
+        <th>Item Name</th>
+        <th>Image</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>tag</th>
+        <th>Category</th>
+        <th>Action</th>
+      </tr>
+    </thead>
 
-  {/* Category Dropdown */}
-  <div className="col-md-3">
-    <div className="form-group mb-3">
-     
-      <select className="form-control" onChange={getCatValue}>
-        <option value="">Select Category</option>
-        {CategoriesList.map(cat => (
-          <option key={cat.id} value={cat.id}>{cat.name}</option>
-        ))}
-      </select>
-    </div>
-  </div>
+    <tbody>
+      {RecipesList.length > 0 ? (
+        RecipesList.map(item => (
+          <tr key={item.id}>
+            <td>{item.name}</td>
+            <td>
+              <img className='item-img' src={`${baseImage}${item.imagePath}`} alt="" />
+            </td>
+            <td>{item.price}</td>
+            <td>{item.description}</td>
+            <td>{item.tag?.name || '-'}</td>
+            <td>{item.category?.[0]?.name || '-'}</td>
+            <td>
+              <i onClick={() => handleShowView(item)} className="fa fa-eye mx-3" />
+              {loginData?.userGroup === 'SystemUser' && (
+                <i onClick={() => addToFavs(item.id)} className="fa fa-heart text-success" />
+              )}
+              {loginData?.userGroup !== 'SystemUser' && (
+                <>
+                  <i
+                    className="fas fa-edit mx-2 text-warning"
+                    onClick={() => navigate('/dashboard/recipe-data', { state: { recipe: item } })}
+                  />
+                  <i onClick={() => handleShow(item.id)} className="fa fa-trash text-danger" />
+                </>
+              )}
+            </td>
+          </tr>
+        ))
+      ) : (
+        <NoData />
+      )}
+    </tbody>
+  </table>
+)}
 
-    </div>
-
-
-
-        <table className='table table-striped'>
-          <thead>
-            <th>Item Name</th>
-            <th>Image</th>
-            <th>Price</th>
-            <th>Description</th>
-            <th>tag</th>
-            <th>Category</th>
-            <th>Action</th>
-          </thead>
-
-          <tbody>
-            {RecipesList.length>0 ? RecipesList.map( (item)=>
-             <tr>
-              <td> {item.name} </td>
-              <td> <img className='item-img' src= {`${baseImage}${item.imagePath}`} alt="" />   </td>
-              <td>{item.price}</td>
-              <td>{item.description}</td>
-              <td>{item.tag.name}</td>
-              <td>{item.category[0].name}</td>
-
-              <td> 
-          <i onClick={() => handleShowView(item)} class="fa fa-eye mx-3" aria-hidden="true"></i> 
-          
-          {loginData?.userGroup == 'SystemUser' ?
-          <i onClick={()=>addToFavs(item.id)} class="fa fa-heart text-success" aria-hidden="true"></i>
-           : ''}
-
-          {loginData?.userGroup !='SystemUser'?
-          <i className="fas fa-edit mx-2 text-warning"
-               onClick={() => navigate('/dashboard/recipe-data', { state: { recipe: item } })}></i>:''}
-
-            {loginData?.userGroup !='SystemUser'?   
-          <i  onClick={()=> handleShow(item.id)} class="fa fa-trash text-danger" aria-hidden="true"></i> :''}
-        </td> 
-
-            </tr>
-
-            ) : <NoData/> }
-           
-          </tbody>
-
-        </table>
 
 
 

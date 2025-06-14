@@ -9,6 +9,7 @@ import DeleteConfirmation from '../../../Shared/components/DeleteConfirmation/De
 import { useForm } from 'react-hook-form';
 import { axiosInstance, CATEGORIES_URLS } from '../../../Services/urls';
 import { toast } from 'react-toastify';
+import categoryimg from '../../../../assets/images/'
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
@@ -20,6 +21,7 @@ export default function CategoriesList() {
   const [catId, setCatId] = useState(0);
   const [arrayOfPages , setArrayOfPages] = useState ([]);
   const [nameValue , setnameValue] = useState ('');
+  const [loading, setLoading] = useState(false);
 
   
 
@@ -84,6 +86,7 @@ export default function CategoriesList() {
 
   // Get All Categories
   const getAllCategories = async (pageSize, pageNumber , name) => {
+    setLoading(true);
   try {
     const response = await axiosInstance.get(`${CATEGORIES_URLS.GET_CATEGORIES}`, {
       params: { pageSize, pageNumber , name},
@@ -93,6 +96,9 @@ export default function CategoriesList() {
     setCategoriesList(response.data.data);
   } catch (error) {
     console.log(error);
+  }
+  finally {
+    setLoading(false); 
   }
 };
 
@@ -158,7 +164,7 @@ export default function CategoriesList() {
 
 // **************** Use Effect *********************
  useEffect(() => {
-  getAllCategories(3, 1 ,"");
+  getAllCategories(5, 1 ,"");
 }, []);
 
   return (
@@ -213,26 +219,42 @@ export default function CategoriesList() {
 
 
       {/* View Modal */}
-        <Modal show={showView} onHide={handleCloseView}>
-          <Modal.Header closeButton>
-            <Modal.Title>Category Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {viewCategory && (
-              <div>
-                <p><strong>Name:</strong> {viewCategory.name}</p>
-                <p><strong>Created at:</strong> {new Date(viewCategory.creationDate).toLocaleString()}</p>
+       <Modal show={showView} onHide={handleCloseView} centered>
+  <Modal.Header closeButton>
+    <Modal.Title>Category Details</Modal.Title>
+  </Modal.Header>
 
-              
-              </div>
-            )}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseView}>
-              Close
-            </Button>
-          </Modal.Footer>
+  <Modal.Body>
+    {viewCategory && (
+      <div className="text-center">
+        
+        <img
+          src=""
+          alt="Category Icon"
+          style={{ width: '80px', marginBottom: '15px' }}
+        />
+
+        {/* صندوق البيانات */}
+        <div className="p-3 rounded border shadow-sm bg-light text-start">
+          <p className="mb-2">
+            <strong>Name:</strong> {viewCategory.name}
+          </p>
+          <p className="mb-0">
+            <strong>Created At:</strong>{' '}
+            {new Date(viewCategory.creationDate).toLocaleString()}
+          </p>
+        </div>
+      </div>
+    )}
+  </Modal.Body>
+
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleCloseView}>
+      Close
+    </Button>
+  </Modal.Footer>
         </Modal>
+
 
 
 
@@ -243,7 +265,7 @@ export default function CategoriesList() {
           <h5>Categories Table Details</h5>
           <p>You can check all details</p>
         </div>
-        <button className="btn btn-custom-green" onClick={() => handleShowAdd()}>
+        <button className="btn btn-custom-green btn-add" onClick={() => handleShowAdd()}>
           Add New Category
         </button>
       </div>
@@ -252,9 +274,16 @@ export default function CategoriesList() {
       <div className="p-5">
 
 
-      <input type='text' className='form-control mb-3' placeholder='Search By Name ....' onChange={getNameValue} />
+      <input type='text' className='form-control mb-3 search-input' placeholder='Search By Name ....' onChange={getNameValue} />
 
-        <table className="table table-striped">
+{loading ? (
+  <div className="text-center my-5">
+    <div className="spinner-border text-success" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </div>
+  </div>
+) : (
+        <table className="table table-striped table-custom">
           <thead>
             <tr>
               <th>Name</th>
@@ -268,35 +297,49 @@ export default function CategoriesList() {
                 <tr key={item.id}>
                   <td>{item.name}</td>
                   <td>{new Date(item.creationDate).toLocaleString()}</td>
+<td>
+  <div className="dropdown text-center">
+    <i
+      className="fa fa-ellipsis-h fs-5"
+      id={`dropdownMenuButton${item.id}`}
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      style={{ color: '#198754', cursor: 'pointer' }}
+    ></i>
 
-                  <td>
+    <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton${item.id}`}>
+      <li>
+        <button
+          className="dropdown-item text-primary d-flex align-items-center"
+          onClick={() => handleShowView(item)}
+        >
+          <i className="fa fa-eye me-2"></i> View
+        </button>
+      </li>
 
-                <Dropdown className="action-dropdown" drop="start">
-  <Dropdown.Toggle
-    as="div"
-    variant="link"
-    className="text-green border-0 bg-transparent fs-4"
-    style={{ textDecoration: 'none', fontWeight: 'bold', color: 'green' }}
-  >
-    :
-  </Dropdown.Toggle>
+      <li>
+        <button
+          className="dropdown-item text-warning d-flex align-items-center"
+          onClick={() => handleShowAdd(item)}
+        >
+          <i className="fas fa-edit me-2"></i> Edit
+        </button>
+      </li>
 
-  <Dropdown.Menu className="custom-dropdown-menu">
-    <Dropdown.Item onClick={() => handleShowView(item)} className="custom-dropdown-item">
-      <i className="fa fa-eye me-2"></i> View
-    </Dropdown.Item>
-    <Dropdown.Item onClick={() => handleShowAdd(item)} className="custom-dropdown-item">
-      <i className="fas fa-edit me-2"></i> Edit
-    </Dropdown.Item>
-    <Dropdown.Item onClick={() => handleShow(item.id)} className="custom-dropdown-item">
-      <i className="fa fa-trash me-2"></i> Delete
-    </Dropdown.Item>
-  </Dropdown.Menu>
-</Dropdown>
+      <li>
+        <button
+          className="dropdown-item text-danger d-flex align-items-center"
+          onClick={() => handleShow(item.id)}
+        >
+          <i className="fa fa-trash me-2"></i> Delete
+        </button>
+      </li>
+    </ul>
+  </div>
+</td>
 
 
 
-                  </td>
 
                 </tr>
               ))
@@ -305,6 +348,7 @@ export default function CategoriesList() {
             )}
           </tbody>
         </table>
+        )}
 
 
       {CategoriesList.length > 0 ?
