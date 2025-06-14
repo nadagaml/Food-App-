@@ -179,7 +179,7 @@ useEffect ( ()=>{
     <Header imgPath={RecipesImg} title={'Recipes Items'} description={'You can now add your items that any user can order it from the Application and you can edit'}/>
     
 
-    {/* Delete Model */}
+    
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -196,48 +196,63 @@ useEffect ( ()=>{
         </Modal.Footer>
       </Modal>
 
-    {/* End Of Delete Model  */}
+   
 
 
-       {/* View Modal */}
-        <Modal show={showView} onHide={handleCloseView}>
-          <Modal.Header closeButton>
-            <Modal.Title>Category Details</Modal.Title>
-          </Modal.Header>
-         <Modal.Body>
-  {viewRecipe && (
-    <div>
-      <p><strong>Name:</strong> {viewRecipe.name}</p>
-      <p><strong>Price:</strong> {viewRecipe.price}</p>
-      <p><strong>Tag:</strong> {viewRecipe.tag?.name || 'No Tag'}</p>
-      <p><strong>Description:</strong> {viewRecipe.description}</p>
-      <p><strong>Category:</strong> {viewRecipe.category?.[0]?.name || 'No Category'}</p>
+     
+          <Modal show={showView} onHide={handleCloseView} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Recipe Details</Modal.Title>
+            </Modal.Header>
 
-      <p><strong>Created at:</strong> {new Date(viewRecipe.creationDate).toLocaleString()}</p>
+            <Modal.Body>
+              {viewRecipe && (
+                <div className="text-center">
+
+                
+                  <div className="d-flex justify-content-center mb-2">
+                    <div
+                      className="rounded-circle bg-light shadow d-flex align-items-center justify-content-center"
+                      style={{ width: '60px', height: '60px' }}
+                    >
+                      <i className="fas fa-utensils fs-4 text-success"></i>
+                    </div>
+                  </div>
+
+                
+                  <div className="mb-4">
+                    <img
+                      src={`${baseImage}${viewRecipe.imagePath}`}
+                      alt="Recipe"
+                      className="img-fluid rounded shadow"
+                      style={{ maxWidth: '250px', maxHeight: '250px', objectFit: 'cover' }}
+                    />
+                  </div>
+
+                  <div className="text-start bg-light p-3 rounded border shadow-sm">
+                    <p><strong style={{ color: '#198754' }}>Name:</strong> {viewRecipe.name}</p>
+                    <p><strong style={{ color: '#198754' }}>Price:</strong> {viewRecipe.price}</p>
+                    <p><strong style={{ color: '#198754' }}>Tag:</strong> {viewRecipe.tag?.name || 'No Tag'}</p>
+                    <p><strong style={{ color: '#198754' }}>Description:</strong> {viewRecipe.description}</p>
+                    <p><strong style={{ color: '#198754' }}>Category:</strong> {viewRecipe.category?.[0]?.name || 'No Category'}</p>
+                    <p><strong style={{ color: '#198754' }}>Created at:</strong> {new Date(viewRecipe.creationDate).toLocaleString()}</p>
+                  </div>
+                </div>
+              )}
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseView}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
 
 
-      <div className="d-flex justify-content-center my-3">
-        <img
-          src={`${baseImage}${viewRecipe.imagePath}`}
-          alt=""
-          className="img-fluid rounded shadow"
-          style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'cover' }}
-        />
-      </div>
-    </div>
-  )}
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseView}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-    {/* End Of view Model  */}
+   
 
 
-    {/* title */}
+    
       <div className='title d-flex justify-content-between p-4 align-items-center'>
       <div className="titleCat">
         <h5>Recipe Table Details</h5>
@@ -250,12 +265,12 @@ useEffect ( ()=>{
         </div>
 
 
-      {/* Table */}
+      
 
       <div className="p-5">
  <div className="row align-items-end">
 
-    {/* Search Input */}
+    
     <div className="col-md-6">
       <div className="form-group position-relative mb-3">
         <i
@@ -277,7 +292,7 @@ useEffect ( ()=>{
       </div>
     </div>
 
-    {/* Tag Dropdown */}
+    
     <div className="col-md-3">
       <div className="form-group mb-3">
         <select className="form-control custom-input" onChange={getTagValue}>
@@ -291,7 +306,7 @@ useEffect ( ()=>{
       </div>
     </div>
 
-    {/* Category Dropdown */}
+    
     <div className="col-md-3">
       <div className="form-group mb-3">
         <select className="form-control custom-input" onChange={getCatValue}>
@@ -367,7 +382,7 @@ useEffect ( ()=>{
 
 
 
-{/*  ************** Pagination Button ********* */}
+
         
 <nav aria-label="Page navigation example">
   <ul className="pagination">

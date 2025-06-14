@@ -9,7 +9,7 @@ import DeleteConfirmation from '../../../Shared/components/DeleteConfirmation/De
 import { useForm } from 'react-hook-form';
 import { axiosInstance, CATEGORIES_URLS } from '../../../Services/urls';
 import { toast } from 'react-toastify';
-import categoryimg from '../../../../assets/images/'
+import categoryimg from '../../../../assets/images/category.webp'
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
@@ -229,9 +229,9 @@ export default function CategoriesList() {
       <div className="text-center">
         
         <img
-          src=""
+          src={categoryimg}
           alt="Category Icon"
-          style={{ width: '80px', marginBottom: '15px' }}
+          style={{ width: '150px', marginBottom: '15px' }}
         />
 
         {/* صندوق البيانات */}
