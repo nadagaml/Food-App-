@@ -15,6 +15,9 @@ export const USERS_URLS = {
     FORGET_PASS : `/Users/Reset/Request` ,
     RESET_PASS : `/Users/Reset`,
     CHANGE_PASSWORD: `/Users/ChangePassword`,
+    REGISTER : `/Users/Register`,
+    USER_VERIFY : `/Users/verify`,
+    
 };
 
 // **************** CATEGORIES **************

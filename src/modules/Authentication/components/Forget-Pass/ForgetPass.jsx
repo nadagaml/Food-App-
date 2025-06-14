@@ -11,7 +11,7 @@ export default function ForgetPass() {
     const navigate = useNavigate();
 
      let {
-       register,
+       register, 
        formState: { errors },
        handleSubmit,
      } = useForm();

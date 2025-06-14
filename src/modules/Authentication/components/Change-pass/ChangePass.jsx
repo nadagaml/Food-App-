@@ -13,7 +13,7 @@ export default function ChangePass() {
     reset,
   } = useForm();
 
-  const [loading, setLoading] = useState(false); // 👈 loading state
+  const [loading, setLoading] = useState(false); 
 
   const onSubmit = async (data) => {
     setLoading(true);

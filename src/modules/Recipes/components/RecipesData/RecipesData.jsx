@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function RecipesData() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   const location = useLocation();
 
   const editingRecipe = location.state?.recipe || null;
