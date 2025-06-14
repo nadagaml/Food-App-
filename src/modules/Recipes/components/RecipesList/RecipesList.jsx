@@ -106,7 +106,7 @@ const getAllRecipes = async (pageSize , pageNumber ,name , tagId ,categoryId) =>
     }
   };
 
-// Delete Categories by ID
+
 const deleteRecipe = async ()=>{
  
   try{
@@ -358,8 +358,9 @@ useEffect ( ()=>{
             <td>
               <i onClick={() => handleShowView(item)} className="fa fa-eye mx-3" />
               {loginData?.userGroup === 'SystemUser' && (
-                <i onClick={() => addToFavs(item.id)} className="fa fa-heart text-success" />
+                <i onClick={() => addToFavs(item.id)} className="fa fa-heart text-danger" />
               )}
+
               {loginData?.userGroup !== 'SystemUser' && (
                 <>
                   <i
