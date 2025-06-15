@@ -1,65 +1,66 @@
-import React from 'react'
-import logo from '../../../../assets/images/logo.png'
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import logo from '../../../../assets/images/logo.png';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { toast } from 'react-toastify';
+import { axiosInstance, USERS_URLS } from '../../../Services/urls';  
 
 export default function ForgetPass() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-
-    const navigate = useNavigate();
-
-     let {
-       register, 
-       formState: { errors },
-       handleSubmit,
-     } = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        'https://upskilling-egypt.com:3006/api/v1/Users/Reset/Request',
-        {email : data.email}
+      setLoading(true);
+      const response = await axiosInstance.post(
+        USERS_URLS.FORGET_PASS, 
+        { email: data.email }
       );
-      console.log(response);
 
       toast.success('Password reset link sent! Please check your email.', {
         position: 'top-right',
         autoClose: 3000,
       });
+
       navigate('/reset-pass');
     } catch (error) {
-      console.log(error);
-      toast.error(error.response?.data?.message || 'Failed to send OTP. Please try again.', {
-        position: 'top-right',
-        autoClose: 3000,
-      });
+      toast.error(
+        error.response?.data?.message || 'Failed to send OTP. Please try again.',
+        {
+          position: 'top-right',
+          autoClose: 3000,
+        }
+      );
+    } finally {
+      setLoading(false);
     }
   };
-  return (
-    <>
 
+  return (
     <div className="auth-container">
       <div className="container-fluid bg-overlay">
-        <div className="row d-felx vh-100  justify-content-center align-items-center">
+        <div className="row d-flex vh-100 justify-content-center align-items-center">
           <div className="col-md-6 bg-white rounded-3 px-5 py-4">
-              <div>
+            <div>
+              <div className="logo-container text-center mb-3">
+                <img className="w-50" src={logo} alt="food-logo" />
+              </div>
 
-                {/* logo */}
-                <div className='logo-container text-center mb-3'>
-                  <img className='w-50' src={logo} alt="food-logo" />
-                </div>
+              <div className="title mb-5">
+                <h4>Forgot Your Password?</h4>
+                <span className="text-muted">
+                  No worries! Please enter your email and we will send a password reset link
+                </span>
+              </div>
 
-                {/* title */}
-
-                <div className="title mb-5">
-                  <h4>Forgot Your Password?</h4>
-                  <span className='text-muted'>No worries! Please enter your email and we will send a password reset link </span>
-                </div>
-
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <div className="input-group mb-3">
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">
                     <i className="fa fa-envelope"></i>
                   </span>
@@ -80,24 +81,32 @@ export default function ForgetPass() {
                   />
                 </div>
                 {errors.email && (
-                  <span className="text-danger m-2">
-                    {errors.email.message}
-                  </span>
+                  <span className="text-danger m-2">{errors.email.message}</span>
                 )}
 
-
-                  <button className="btn btn-custom-green w-100 my-5">
-                     Submit
-                  </button>
-                </form>
-
-
-              </div>
+                <button
+                  className="btn btn-custom-green w-100 my-5"
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm me-2"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Sending...
+                    </>
+                  ) : (
+                    'Submit'
+                  )}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    </>
-  )
+  );
 }

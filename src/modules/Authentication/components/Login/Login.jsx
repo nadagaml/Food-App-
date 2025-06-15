@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import logo from '../../../../assets/images/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useContext } from 'react';
 import { AuthContext } from '../../../../context/AuthContext';
 
 export default function Login() {
   const navigate = useNavigate();
-  let {saveLoginData} = useContext(AuthContext)
-  let {
+  const { saveLoginData } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+
+  const {
     register,
     formState: { errors },
     handleSubmit,
@@ -18,21 +19,21 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       const response = await axios.post(
         'https://upskilling-egypt.com:3006/api/v1/Users/Login',
         data
       );
-      console.log(response);
       localStorage.setItem('token', response.data.token);
-        saveLoginData();
+      saveLoginData();
       toast.success('Login successful!');
       navigate('/dashboard');
-
     } catch (error) {
-      console.log(error);
       toast.error(
         error.response?.data?.message || 'Login failed. Please try again.'
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,8 +121,23 @@ export default function Login() {
                 </div>
 
                 {/* Submit Button */}
-                <button className="btn btn-custom-green w-100" type="submit">
-                  Login
+                <button
+                  className="btn btn-custom-green w-100"
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <span>
+                      <span
+                        className="spinner-border spinner-border-sm me-2"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Logging in...
+                    </span>
+                  ) : (
+                    'Login'
+                  )}
                 </button>
               </form>
             </div>
